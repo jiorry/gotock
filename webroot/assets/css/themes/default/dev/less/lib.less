@@ -1,0 +1,41 @@
+@import "../vars.less";
+
+.Border(@w:1px, @radius:0, @col:#DEDEDE){
+	border: @w solid @col;
+	border-radius: @radius;
+}
+
+.Alpha(@op){
+	opacity: @op;
+	@op-ie: @op * 100;
+	filter: alpha(opacity=@op-ie);
+}
+
+.Transition(@s:0.3s){
+	-webkit-transition: @s;
+	-moz-transition: @s;
+	-o-transition: @s;
+	transition: @s;
+	-webkit-backface-visibility: hidden;
+}
+.Rotate(@deg){
+	-webkit-transform: rotate(@deg);
+    -moz-transform: rotate(@deg);
+    -o-transform: rotate(@deg);
+    -ms-transform: rotate(@deg);
+    transform: rotate(@deg);
+}
+
+.BoxShadow(@val){
+	-webkit-box-shadow: @val;
+	box-shadow: @val;
+}
+
+.GrayScale(@val){
+	-webkit-filter: grayscale(@val);
+	-moz-filter: grayscale(@val);
+	-ms-filter: grayscale(@val);
+	-o-filter: grayscale(@val);
+	filter: grayscale(@val);
+}
+	

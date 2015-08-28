@@ -2,7 +2,9 @@ package main
 
 import (
 	"./api"
-	"./page/stock"
+	"./page/home"
+	"./page/rzrq"
+	"./page/user"
 
 	"github.com/kere/gos"
 	_ "github.com/lib/pq"
@@ -11,11 +13,15 @@ import (
 func main() {
 	gos.Init()
 
-	gos.Route("/", &stock.Main{})
-	gos.RegRoute("^/stock/.+", &stock.Main{})
+	gos.Route("/", &home.Default{})
+	gos.Route("/login", &user.Login{})
+	gos.Route("/regist", &user.Regist{})
+
+	gos.Route("/rzrq/sum", &rzrq.Sum{})
+	gos.Route("/rzrq/stock", &rzrq.Stock{})
 
 	// open api router
-	gos.WebApiRoute("web", &api.Public{})
+	// gos.WebApiRoute("web", &api.Public{})
 
 	// open api
 	// api.RegistOpenApi()

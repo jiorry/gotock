@@ -1,6 +1,6 @@
 define(
     'ajax',
-    
+
     ['util', 'jquery'],
 
     function(util) {
@@ -58,11 +58,12 @@ define(
             this._button = null;
             this._block = null;
         }
-        
+
         Client.prototype.errorHandler = function(r){console.log(r);};
 
-        Client.prototype.button = function($t){
+        Client.prototype.bindClick = function($t, func){
             this._button = $t;
+            $t.click(func)
             return this;
         }
         Client.prototype.block = function($t){
@@ -75,7 +76,7 @@ define(
                 var func = function(){}
                 return {done:func, fail:func, always:func};
             }
-            
+
             this.deferred = this.send(method, args);
             return this.deferred;
         };
@@ -87,7 +88,7 @@ define(
             if (this._block){
                 this.doBusy(this._block, true);
             }
-                
+
             if(this._button){
                 this.doDisable(this._button, true);
             }
@@ -144,7 +145,7 @@ define(
 
         Client.prototype.doBusy = function(el, sw){
             var container,overlay;
-            
+
             if(typeof el == "string")
                 container  = $(el);
             else
@@ -226,7 +227,7 @@ define(
                 }
             }
         })
-        
+
         return ajax;
     }
 )

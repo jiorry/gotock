@@ -1,12 +1,13 @@
 package common
 
 import (
-	"../../lib/auth"
 	"bytes"
 	"fmt"
+	"io"
+
+	"../../lib/auth"
 	"github.com/kere/gos"
 	"github.com/kere/gos/lib/util"
-	"io"
 )
 
 var (
@@ -36,15 +37,16 @@ func SetupPage(p *gos.Page, theme string) {
 	p.AddCss(&gos.ThemeItem{Value: "bootstrap.min.css"})
 	p.AddCss(&gos.ThemeItem{Value: "font-awesome.min.css"})
 
-	p.AddCss(&gos.ThemeItem{Value: fmt.Sprint(p.View.Value, ".css"), Folder: gos.RunMode, Theme: theme})
+	p.AddCss(&gos.ThemeItem{Value: fmt.Sprint(p.View.Value, ".css"), Folder: fmt.Sprint(gos.RunMode, "/page/", p.View.Folder), Theme: theme})
 
 	p.Layout.AddTopRender(gos.NewTemplateRender("", "", "_header", nil))
-	p.Layout.AddTopRender(gos.NewTemplateRender("", "", "_footer", nil))
+	// p.Layout.AddBottomRender(gos.NewTemplateRender("", "", "_footer", nil))
 
 	p.Layout.RenderFunc = Render
 	p.SetUserAuth(auth.New(p.Ctx))
 
 	RequireJs(p)
+	p.AddJs(&gos.ThemeItem{Value: "jquery.js"})
 }
 
 func UserAuth(ctx *gos.Context) *auth.UserAuth {

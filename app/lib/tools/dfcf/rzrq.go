@@ -17,19 +17,19 @@ type RzrqSumJSONData []string
 
 // RzrqSumItemData 融资融券汇总
 type RzrqSumItemData struct {
-	Date     time.Time `json:"date"`
-	SHrzye   int64     `json:"sh_rzye"`
-	SZrzye   int64     `json:"sz_rzye"`
-	SMrzye   int64     `json:"sm_rzye"`
-	SHrzmre  int64     `json:"sh_rzmre"`
-	SZrzmre  int64     `json:"sz_rzmre"`
-	SMrzmre  int64     `json:"sm_rzmre"`
-	SHrqylye int64     `json:"sh_rqylye"`
-	SZrqylye int64     `json:"sz_rqylye"`
-	SMrqylye int64     `json:"sm_rqylye"`
-	SHrzrqye int64     `json:"sh_rzrqye"`
-	SZrzrqye int64     `json:"sz_rzrqye"`
-	SMrzrqye int64     `json:"sm_rzrqye"`
+	Date     string `json:"date"`
+	SHrzye   int64  `json:"sh_rzye"`
+	SZrzye   int64  `json:"sz_rzye"`
+	SMrzye   int64  `json:"sm_rzye"`
+	SHrzmre  int64  `json:"sh_rzmre"`
+	SZrzmre  int64  `json:"sz_rzmre"`
+	SMrzmre  int64  `json:"sm_rzmre"`
+	SHrqylye int64  `json:"sh_rqylye"`
+	SZrqylye int64  `json:"sz_rqylye"`
+	SMrqylye int64  `json:"sm_rqylye"`
+	SHrzrqye int64  `json:"sh_rzrqye"`
+	SZrzrqye int64  `json:"sz_rzrqye"`
+	SMrzrqye int64  `json:"sm_rzrqye"`
 }
 
 // ParseSumData 解析两市汇总信息
@@ -37,7 +37,7 @@ func (r RzrqSumJSONData) ParseSumData() ([]*RzrqSumItemData, error) {
 	if len(r) == 0 {
 		return nil, nil
 	}
-
+	var err error
 	var dataSet = make([]*RzrqSumItemData, 0)
 
 	var tmp []string
@@ -48,12 +48,12 @@ func (r RzrqSumJSONData) ParseSumData() ([]*RzrqSumItemData, error) {
 			return nil, fmt.Errorf("parse data error")
 		}
 
-		t, err := time.Parse("2006-01-02", tmp[0])
-		if err != nil {
-			return nil, gos.DoError(err)
-		}
+		// t, err := time.Parse("2006-01-02", tmp[0])
+		// if err != nil {
+		// 	return nil, gos.DoError(err)
+		// }
 		itemData = &RzrqSumItemData{}
-		itemData.Date = t
+		itemData.Date = tmp[0]
 
 		itemData.SHrzye, err = util.Str2Int64(tmp[1])
 		if err != nil {
@@ -110,21 +110,28 @@ func (r RzrqSumJSONData) ParseSumData() ([]*RzrqSumItemData, error) {
 	return dataSet, nil
 }
 
-// FetchRzrqSumData 抓取数据
-func FetchRzrqSumData() ([]*RzrqSumItemData, error) {
-	sty := "SHSZHSSUM"
-	page := 1
-	src, err := fetchRzrq(sty, page)
-	v := &RzrqSumJSONData{}
+var sumdataCached []*RzrqSumItemData
 
+// RzrqSumData 抓取数据
+func RzrqSumData() ([]*RzrqSumItemData, error) {
+	if sumdataCached != nil {
+		return sumdataCached, nil
+	}
+	src, err := FetchRzrqSumData("SHSZHSSUM", 1)
+	if err != nil {
+		return nil, gos.DoError(err)
+	}
+	v := &RzrqSumJSONData{}
 	if err = json.Unmarshal(src, &v); err != nil {
 		return nil, gos.DoError(err)
 	}
 
-	return v.ParseSumData()
+	sumdataCached, err = v.ParseSumData()
+	return sumdataCached, err
 }
 
-func fetchRzrq(sty string, page int) ([]byte, error) {
+// FetchRzrqSumData 抓取数据
+func FetchRzrqSumData(sty string, page int) ([]byte, error) {
 	st := time.Now().Unix() / 30
 	formt := "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=FD&sty=%s&st=0&sr=1&p=%d&ps=50&js=var%%20ruOtumOo={pages:(pc),data:[(x)]}&rt=%d"
 

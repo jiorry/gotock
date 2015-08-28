@@ -1,11 +1,13 @@
 package api
 
 import (
-	"../lib/auth"
-	"./openapi/index"
 	"fmt"
-	"github.com/kere/gos"
 	"reflect"
+
+	"../lib/auth"
+	"./openapi/public"
+	"./openapi/stock"
+	"github.com/kere/gos"
 )
 
 var apiMap = make(map[string]reflect.Type)
@@ -19,8 +21,9 @@ func regist(n string, a interface{}) {
 }
 
 func init() {
-	regist("index.SZApi", &index.SZApi{})
-	regist("index.SHApi", &index.SHApi{})
+	regist("public.sign", &public.SignApi{})
+	regist("public.site", &public.PublicApi{})
+	regist("stock.rzrq", &stock.RZRQApi{})
 }
 
 type OpenApi struct {

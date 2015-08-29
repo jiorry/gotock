@@ -4,6 +4,7 @@ import (
 	"../../../lib/tools/dfcf"
 
 	"github.com/kere/gos"
+	"github.com/kere/gos/lib/util"
 )
 
 type RZRQApi struct {
@@ -11,10 +12,13 @@ type RZRQApi struct {
 }
 
 func (a *RZRQApi) SumData() ([]*dfcf.RzrqSumItemData, error) {
-	result, err := dfcf.RzrqSumData()
-	if err != nil {
-		return nil, err
-	}
+	return dfcf.GetRzrqSumData()
+}
 
-	return result, nil
+func (a *RZRQApi) StockData(args util.MapData) ([]*dfcf.RzrqStockData, error) {
+	return dfcf.GetRzrqStockData(args.GetString("code"))
+}
+
+func (a *RZRQApi) CachedStockData() ([]string, error) {
+	return dfcf.StockCachedList(), nil
 }

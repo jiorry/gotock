@@ -18,7 +18,7 @@ func main() {
 	gos.Route("/regist", &user.Regist{})
 
 	gos.Route("/rzrq/sum", &rzrq.Sum{})
-	gos.Route("/rzrq/stock", &rzrq.Stock{})
+	gos.Route("/rzrq/stock/:code", &rzrq.Stock{})
 
 	// open api router
 	// gos.WebApiRoute("web", &api.Public{})

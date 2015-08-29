@@ -1,6 +1,19 @@
+<div class="container mgt-20 mgb-20">
+    <label>
+    <input type="radio" name="optionsRadios" id="optionsSum" value="sm" checked="checked">
+    两市合计
+    </label>
+    <label>
+    <input type="radio" name="optionsRadios" id="optionsSH" value="sh">
+    沪市
+    </label>
+    <label>
+    <input type="radio" name="optionsRadios" id="optionsSZ" value="sz">
+    深市
+    </label>
+</div>
 <div class="container">
     <div class="col-xs-12 chart-container">
-        <h3 class="text-center">融资余额（亿元）</h3>
         <div id="chartRzyeLine" class="chart"></div>
     </div>
     <div class="col-xs-12 chart-container">
@@ -8,7 +21,6 @@
     </div>
 
     <div class="col-xs-12 chart-container">
-        <h3 class="text-center">融资买入额（亿元）</h3>
         <div id="chartRzmreLine" class="chart"></div>
     </div>
     <div class="col-xs-12 chart-container">
@@ -16,10 +28,13 @@
     </div>
 
     <div class="col-xs-12 chart-container">
-        <h3 class="text-center">融券余额（亿元）</h3>
         <div id="chartRqylyeLine" class="chart"></div>
     </div>
     <div class="col-xs-12 chart-container">
         <div id="chartRqylyeBar" class="chart"></div>
     </div>
+</div>
+
+<div class="container">
+    数据来源：<a href="http://data.eastmoney.com/rzrq/total.html" target="_blank">http://data.eastmoney.com/rzrq/total.html</a>
 </div>

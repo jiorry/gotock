@@ -41,5 +41,4 @@ require(
 				var err = JSON.parse(jqXHR.responseText)
 				doError(err.message);
 			})
-
 });

@@ -1,7 +1,7 @@
 package home
 
 import (
-	"../common"
+	"github.com/jiorry/gotock/app/page/common"
 
 	"github.com/kere/gos"
 )

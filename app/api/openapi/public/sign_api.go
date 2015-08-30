@@ -2,8 +2,8 @@ package public
 
 import (
 	"fmt"
+	"github.com/jiorry/gotock/app/lib/auth"
 
-	"../../../lib/auth"
 	"github.com/kere/gos"
 	"github.com/kere/gos/lib/util"
 )

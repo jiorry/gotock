@@ -1,7 +1,7 @@
 package stock
 
 import (
-	"../../../lib/tools/dfcf"
+	"github.com/jiorry/gotock/app/lib/tools/dfcf"
 
 	"github.com/kere/gos"
 	"github.com/kere/gos/lib/util"

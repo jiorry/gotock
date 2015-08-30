@@ -2,8 +2,8 @@ package rzrq
 
 import (
 	"fmt"
+	"github.com/jiorry/gotock/app/page/common"
 
-	"../common"
 	"github.com/kere/gos"
 )
 

@@ -3,10 +3,10 @@ package api
 import (
 	"fmt"
 	"reflect"
+	"github.com/jiorry/gotock/app/api/openapi/public"
+	"github.com/jiorry/gotock/app/api/openapi/stock"
+	"github.com/jiorry/gotock/app/lib/auth"
 
-	"../lib/auth"
-	"./openapi/public"
-	"./openapi/stock"
 	"github.com/kere/gos"
 )
 

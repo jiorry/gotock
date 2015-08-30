@@ -35,6 +35,21 @@ require(
 			prepareChart($(this).filter(':checked').val());
 		})
 
+		$('#btnRzrqQuery').click(function(){
+			var code = $('#txtCode').val();
+			var p = /[a-zA-Z]/;
+			if(code=='' || p.test(code)){
+				alert('股票代码错误，请重新输入！');
+				return;
+			}
+			window.location.href = '/rzrq/stock/' + code;
+		});
+		$('#txtCode').keypress(function(e){
+			if (e.which == 13) {
+			   $('#btnRzrqQuery').trigger('click');
+			}
+		})
+
 		ajax.NewClient("/api/open").send('stock.rzrq.SumData', null)
 			.done(function(result){
 				dataResult = result

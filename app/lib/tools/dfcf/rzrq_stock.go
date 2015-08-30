@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/kere/gos"
+	"github.com/kere/gos/lib/log"
 )
 
 var rzrqStockDataMapping []*stockDataMapping
@@ -70,6 +71,8 @@ func (r RzrqStockJSONData) ParseSumData() ([]*RzrqStockData, error) {
 	var x float64
 	var val reflect.Value
 	var mapping *stockDataMapping
+	var isFirst = true
+
 	for _, item := range r {
 		tmp = strings.Split(item, ",")
 
@@ -77,6 +80,12 @@ func (r RzrqStockJSONData) ParseSumData() ([]*RzrqStockData, error) {
 		itemData.Date, err = time.Parse("2006/1/2", tmp[4])
 		if err != nil {
 			return nil, gos.DoError(err)
+		}
+
+		if isFirst {
+			itemData.Code = tmp[0]
+			itemData.Name = tmp[2]
+			isFirst = false
 		}
 
 		val = reflect.ValueOf(itemData).Elem()
@@ -100,13 +109,24 @@ func (r RzrqStockJSONData) ParseSumData() ([]*RzrqStockData, error) {
 
 // GetRzrqStockData 抓取数据
 func GetRzrqStockData(code string) ([]*RzrqStockData, error) {
+	if isStockCached(code) {
+		log.App.Info("rzrq stock cached", code)
+		return stockDataCached[code], nil
+	}
+
 	src, err := FetchRzrqStockData(code, 1)
 	if err != nil {
 		return nil, gos.DoError(err)
 	}
 
 	v := &RzrqStockJSONData{}
+	// [{stats:false}]
+	if len(src) == 15 && string(src) == "[{stats:false}]" {
+		return nil, fmt.Errorf("您所查找的股票代码 %s 不存在", code)
+	}
+
 	if err = json.Unmarshal(src, &v); err != nil {
+		fmt.Println(string(src), "---------------")
 		return nil, gos.DoError(err)
 	}
 	var dataSet []*RzrqStockData
@@ -138,6 +158,8 @@ func FetchRzrqStockData(code string, page int) ([]byte, error) {
 	} else if resp.Body == nil {
 		return nil, gos.DoError("error: resp.Body is empty")
 	}
+
+	log.App.Info("rzrq fetch data", code)
 
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
@@ -177,19 +199,19 @@ func isStockCached(code string) bool {
 	t := v[0].Date
 	df := "20060102"
 	now := time.Now()
-	nowStr := now.Format(df)
+	tStr := t.Format(df)
 
 	switch now.Weekday() {
 	case time.Sunday:
-		if now.AddDate(0, 0, -1).Format(df) == nowStr {
+		if now.AddDate(0, 0, -2).Format(df) == tStr {
 			return true
 		}
 	case time.Monday:
-		if now.AddDate(0, 0, -2).Format(df) == nowStr {
+		if now.AddDate(0, 0, -3).Format(df) == tStr {
 			return true
 		}
 	default:
-		if t.Format(df) == nowStr {
+		if t.Format(df) == tStr {
 			return true
 		}
 	}

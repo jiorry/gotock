@@ -1,16 +1,25 @@
 <div class="container mgt-20 mgb-20">
-    <label>
-    <input type="radio" name="optionsRadios" id="optionsSum" value="sm" checked="checked">
-    两市合计
-    </label>
-    <label>
-    <input type="radio" name="optionsRadios" id="optionsSH" value="sh">
-    沪市
-    </label>
-    <label>
-    <input type="radio" name="optionsRadios" id="optionsSZ" value="sz">
-    深市
-    </label>
+    <div class="pull-left">
+        <label class="radio-inline">
+            <input type="radio" name="optionsRadios" id="optionsSum" value="sm" checked="checked">两市合计
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="optionsRadios" id="optionsSH" value="sh">沪市
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="optionsRadios" id="optionsSZ" value="sz">深市
+        </label>
+
+    </div>
+    <div class="pull-right col-xs-3">
+        <div class="input-group">
+            <input id="txtCode" type="text" class="form-control" placeholder="股票代码">
+            <span class="input-group-btn">
+                <button id="btnRzrqQuery" class="btn btn-secondary" type="button">Go!</button>
+            </span>
+        </div>
+    </div>
+
 </div>
 <div class="container">
     <div class="col-xs-12 chart-container">

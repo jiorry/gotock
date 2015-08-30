@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/kere/gos"
+	"github.com/kere/gos/lib/log"
 	"github.com/kere/gos/lib/util"
 )
 
@@ -130,19 +131,19 @@ func isCached() bool {
 	t := sumdataCached[0].Date
 	df := "20060102"
 	now := time.Now()
-	nowStr := now.Format(df)
+	tStr := t.Format(df)
 
 	switch now.Weekday() {
 	case time.Sunday:
-		if now.AddDate(0, 0, -1).Format(df) == nowStr {
+		if now.AddDate(0, 0, -2).Format(df) == tStr {
 			return true
 		}
 	case time.Monday:
-		if now.AddDate(0, 0, -2).Format(df) == nowStr {
+		if now.AddDate(0, 0, -3).Format(df) == tStr {
 			return true
 		}
 	default:
-		if t.Format(df) == nowStr {
+		if t.Format(df) == tStr {
 			return true
 		}
 	}
@@ -152,6 +153,7 @@ func isCached() bool {
 // RzrqSumData 抓取数据
 func GetRzrqSumData() ([]*RzrqSumItemData, error) {
 	if isCached() {
+		log.App.Info("rzrq sum cached")
 		return sumdataCached, nil
 	}
 
@@ -185,6 +187,8 @@ func FetchRzrqSumData(page int) ([]byte, error) {
 	} else if resp.Body == nil {
 		return nil, gos.DoError("error: resp.Body is empty")
 	}
+
+	log.App.Info("rzrq fetch sum data")
 
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)

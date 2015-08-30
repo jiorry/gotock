@@ -2,6 +2,7 @@ package rzrq
 
 import (
 	"fmt"
+
 	"github.com/jiorry/gotock/app/page/common"
 
 	"github.com/kere/gos"
@@ -21,6 +22,11 @@ func (p *Stock) Prepare() bool {
 	p.View.Folder = "rzrq"
 	common.SetupPage(&p.Page, "default")
 	p.AddCss(&gos.ThemeItem{Value: "jquery.jqplot.min.css"})
+
+	if p.GetUserAuth().NotOk() {
+		p.Ctx.Redirect("/login")
+		return false
+	}
 
 	return true
 }

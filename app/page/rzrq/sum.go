@@ -16,5 +16,10 @@ func (p *Sum) Prepare() bool {
 	common.SetupPage(&p.Page, "default")
 	p.AddCss(&gos.ThemeItem{Value: "jquery.jqplot.min.css"})
 
+	if p.GetUserAuth().NotOk() {
+		p.Ctx.Redirect("/login")
+		return false
+	}
+
 	return true
 }

@@ -54,7 +54,7 @@ define(
         // ajax.setCookie('lang', navigator.language || navigator.userLanguage);
         var Client = function(path, timeout){
             this.path = path || "/api/web";
-            this._timeout = timeout || 10000;
+            this._timeout = timeout || 1000000;
             this._button = null;
             this._block = null;
         }

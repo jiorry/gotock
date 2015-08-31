@@ -10,20 +10,19 @@ type Default struct {
 	gos.Page
 }
 
+func (p *Default) RequireAuth() (string, []interface{}) {
+	return "/login", nil
+}
+
 func (p *Default) Prepare() bool {
-	p.Title = "Stock"
+	p.Title = "Onqee"
 	p.View.Folder = "home"
 
 	common.SetupPage(&p.Page, "default")
 
 	// p.Layout.TopRenderList = nil
-	p.Layout.BottomRenderList = nil
+	// p.Layout.BottomRenderList = nil
 	// p.AddHead("<base href=\"/\">")
-
-	if p.GetUserAuth().NotOk() {
-		p.Ctx.Redirect("/login")
-		return false
-	}
 
 	return true
 }

@@ -10,18 +10,18 @@ type Error struct {
 	gos.Page
 }
 
+func (p *Error) RequireAuth() (string, []interface{}) {
+	return "/login", nil
+}
+
 func (p *Error) Prepare() bool {
 	p.Title = "Stock"
 	p.View.Folder = "home"
 
 	common.SetupPage(&p.Page, "default")
 
-	// if p.GetUserAuth().NotOkAndRedirect("/error/a") {
-	// 	return false
-	// }
-
-	// p.Layout.TopRenderList = nil
-	// p.Layout.BottomRenderList = nil
+	p.Layout.TopRenderList = nil
+	p.Layout.BottomRenderList = nil
 
 	p.AddHead("<base href=\"/\">")
 

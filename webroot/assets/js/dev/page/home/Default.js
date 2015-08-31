@@ -3,8 +3,8 @@ window._gos = window._gos || {};
 require.config({
 	baseUrl : "/assets/js/",
 	paths: {
-		'util' : 'dev/mylib/util',
-		'ajax' : 'dev/mylib/ajax'
+		'util' : MYENV+'/mylib/util',
+		'ajax' : MYENV+'/mylib/ajax'
 	},
 	shim: {
         'jquery' : {
@@ -15,7 +15,7 @@ require.config({
 
 require(
 	['ajax', 'util'],
-	function (ajax, util, app){
+	function (ajax, util){
 
 
 });

@@ -104,19 +104,19 @@ func (r RzrqSumJSONData) ParseSumData() ([]*RzrqSumItemData, error) {
 		dataSet = append(dataSet, itemData)
 	}
 
-	// remove -1 value
-	for i, item := range dataSet {
-		val = reflect.ValueOf(item).Elem()
-		for _, mapping := range rzrqSumDataMapping {
-			if val.FieldByName(mapping.Name).Int() == -1 {
-				var tmpIndex = i - 1
-				if i == 0 {
-					tmpIndex = i + 1
-				}
-				val.FieldByName(mapping.Name).SetInt(reflect.ValueOf(dataSet[tmpIndex]).Elem().FieldByName(mapping.Name).Int())
-			}
-		}
-	}
+	// // remove -1 value
+	// for i, item := range dataSet {
+	// 	val = reflect.ValueOf(item).Elem()
+	// 	for _, mapping := range rzrqSumDataMapping {
+	// 		if val.FieldByName(mapping.Name).Int() == -1 {
+	// 			var tmpIndex = i - 1
+	// 			if i == 0 {
+	// 				tmpIndex = i + 1
+	// 			}
+	// 			val.FieldByName(mapping.Name).SetInt(reflect.ValueOf(dataSet[tmpIndex]).Elem().FieldByName(mapping.Name).Int())
+	// 		}
+	// 	}
+	// }
 
 	return dataSet, nil
 }
@@ -140,6 +140,10 @@ func isCached() bool {
 		}
 	case time.Monday:
 		if now.AddDate(0, 0, -3).Format(df) == tStr {
+			if sumdataCached[0].SMrzye == 0 {
+				return false
+			}
+
 			return true
 		}
 	default:

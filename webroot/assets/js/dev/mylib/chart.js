@@ -1,36 +1,36 @@
 require.config({
 	baseUrl : "/assets/js/",
 	paths: {
-		'jquery.jqplot.min' : 'jquery.jqplot.min',
-		'jqplot.barRenderer' : 'plugins/jqplot.barRenderer',
-		'jqplot.pointLabels' : 'plugins/jqplot.pointLabels',
-		'jqplot.highlighter' : 'plugins/jqplot.highlighter',
-		'jqplot.canvasTextRenderer' : 'plugins/jqplot.canvasTextRenderer',
-		'jqplot.canvasAxisTickRenderer' : 'plugins/jqplot.canvasAxisTickRenderer',
-		'jqplot.canvasAxisLabelRenderer' : 'plugins/jqplot.canvasAxisLabelRenderer',
-		'jqplot.categoryAxisRenderer' : 'plugins/jqplot.categoryAxisRenderer'
+		'jquery.jqplot' : MYENV+'/jqplot/jquery.jqplot',
+		'jqplot.barRenderer' : MYENV+'/jqplot/plugins/jqplot.barRenderer',
+		'jqplot.pointLabels' : MYENV+'/jqplot/plugins/jqplot.pointLabels',
+		'jqplot.highlighter' : MYENV+'/jqplot/plugins/jqplot.highlighter',
+		'jqplot.canvasTextRenderer' : MYENV+'/jqplot/plugins/jqplot.canvasTextRenderer',
+		'jqplot.canvasAxisTickRenderer' : MYENV+'/jqplot/plugins/jqplot.canvasAxisTickRenderer',
+		'jqplot.canvasAxisLabelRenderer' : MYENV+'/jqplot/plugins/jqplot.canvasAxisLabelRenderer',
+		'jqplot.categoryAxisRenderer' : MYENV+'/jqplot/plugins/jqplot.categoryAxisRenderer'
 	},
 	shim: {
 		'jqplot.barRenderer' : {
-			deps: ['jquery.jqplot.min']
+			deps: ['jquery.jqplot']
 		},
 		'jqplot.pointLabels' : {
-			deps: ['jquery.jqplot.min']
+			deps: ['jquery.jqplot']
 		},
 		'jqplot.highlighter' : {
-			deps: ['jquery.jqplot.min']
+			deps: ['jquery.jqplot']
 		},
 		'jqplot.canvasAxisLabelRenderer' : {
-			deps: ['jquery.jqplot.min']
+			deps: ['jquery.jqplot']
 		},
 		'jqplot.canvasTextRenderer' : {
-			deps: ['jquery.jqplot.min']
+			deps: ['jquery.jqplot']
 		},
 		'jqplot.canvasAxisTickRenderer' : {
-			deps: ['jquery.jqplot.min']
+			deps: ['jquery.jqplot']
 		},
 		'jqplot.categoryAxisRenderer' : {
-			deps: ['jquery.jqplot.min']
+			deps: ['jquery.jqplot']
 		}
 	}
 });

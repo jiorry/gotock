@@ -1,9 +1,9 @@
 require.config({
 	baseUrl : "/assets/js/",
 	paths: {
-		'chart' : 'dev/mylib/chart',
-		'util' : 'dev/mylib/util',
-		'ajax' : 'dev/mylib/ajax'
+		'chart' : MYENV+'/mylib/chart',
+		'util' : MYENV+'/mylib/util',
+		'ajax' : MYENV+'/mylib/ajax'
 	}
 });
 

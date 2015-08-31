@@ -12,6 +12,10 @@ type Stock struct {
 	gos.Page
 }
 
+func (p *Stock) RequireAuth() (string, []interface{}) {
+	return "/login", nil
+}
+
 func (p *Stock) Prepare() bool {
 	code := p.Ctx.RouterParam("code")
 	if code == "" {
@@ -22,11 +26,6 @@ func (p *Stock) Prepare() bool {
 	p.View.Folder = "rzrq"
 	common.SetupPage(&p.Page, "default")
 	p.AddCss(&gos.ThemeItem{Value: "jquery.jqplot.min.css"})
-
-	if p.GetUserAuth().NotOk() {
-		p.Ctx.Redirect("/login")
-		return false
-	}
 
 	return true
 }

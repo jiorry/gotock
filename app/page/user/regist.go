@@ -15,5 +15,7 @@ func (p *Regist) Prepare() bool {
 	p.View.Folder = "user"
 	common.SetupPage(&p.Page, "default")
 
+	p.Layout.TopRenderList = nil
+
 	return true
 }

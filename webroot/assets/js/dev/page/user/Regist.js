@@ -1,8 +1,8 @@
 require.config({
 	baseUrl : "/assets/js/",
 	paths: {
-		'util' : 'dev/mylib/util',
-		'ajax' : 'dev/mylib/ajax',
+		'util' : MYENV+'/mylib/util',
+		'ajax' : MYENV+'/mylib/ajax',
 	},
 	shim: {
         'jquery' : {

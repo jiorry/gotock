@@ -60,6 +60,16 @@
 			exclude : ['chart']
 		},
 		{
+			name : 'page/user/Login',
+			create: false,
+			exclude : ['crypto']
+		},
+		{
+			name : 'page/user/Regist',
+			create: false,
+			exclude : ['crypto']
+		},
+		{
 			name : 'page/home/Default',
 			create: false,
 			exclude : []

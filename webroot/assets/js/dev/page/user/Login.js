@@ -39,4 +39,10 @@ require(
 				})
 		})
 
+		$('#inputPassword').keypress(function(e){
+			if (e.which == 13) {
+			   $('#btn-login').trigger('click');
+			}
+		})
+
 });

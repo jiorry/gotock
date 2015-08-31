@@ -23,6 +23,18 @@ mylib/util.js
 mylib/ajax.js
 page/rzrq/Sum.js
 
+page/user/Login.js
+----------------
+mylib/util.js
+mylib/ajax.js
+page/user/Login.js
+
+page/user/Regist.js
+----------------
+mylib/util.js
+mylib/ajax.js
+page/user/Regist.js
+
 page/home/Default.js
 ----------------
 mylib/util.js

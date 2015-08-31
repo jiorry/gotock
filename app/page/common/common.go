@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+
 	"github.com/jiorry/gotock/app/lib/auth"
 
 	"github.com/kere/gos"
@@ -62,7 +63,7 @@ func RequireJs(p *gos.Page) {
 	if gos.RunMode == "dev" {
 		url = util.UrlJoin(gos.GetSite().StaticUrl, "/assets/js/dev/page/", p.View.Folder, p.View.Value)
 	} else {
-		url = util.UrlJoin(gos.GetSite().StaticUrl, "/assets/js/dist/page/", p.View.Folder, p.View.Value)
+		url = util.UrlJoin(gos.GetSite().StaticUrl, "/assets/js/pro/page/", p.View.Folder, p.View.Value)
 	}
 
 	ver := gos.GetSite().JsVersion

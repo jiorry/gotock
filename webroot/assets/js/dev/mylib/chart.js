@@ -11,6 +11,9 @@ require.config({
 		'jqplot.categoryAxisRenderer' : MYENV+'/jqplot/plugins/jqplot.categoryAxisRenderer'
 	},
 	shim: {
+		'jqplot.jqplot' : {
+			deps: ['jquery']
+		},
 		'jqplot.barRenderer' : {
 			deps: ['jquery.jqplot']
 		},

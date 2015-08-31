@@ -1,4 +1,5 @@
 require.config({
+	waitSeconds :100,
 	baseUrl : "/assets/js/",
 	paths: {
 		'chart' : MYENV+'/mylib/chart',

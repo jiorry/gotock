@@ -1,6 +1,5 @@
-window._gos = window._gos || {};
-
 require.config({
+	waitSeconds :100,
 	baseUrl : "/assets/js/",
 	paths: {
 		'util' : MYENV+'/mylib/util',

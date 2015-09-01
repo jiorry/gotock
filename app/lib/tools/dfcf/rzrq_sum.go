@@ -185,6 +185,11 @@ func isCached() bool {
 	t := sumdataCached[0].Date
 	df := "20060102"
 	now := time.Now()
+	// 00:00 - 08:00
+	if now.Hour() < 8 {
+		now = now.AddDate(0, 0, -1)
+	}
+
 	tStr := t.Format(df)
 
 	switch now.Weekday() {

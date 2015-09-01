@@ -1,0 +1,161 @@
+html,
+body {
+  height: 100%;
+  font-family: 'Times New Roman', Times, "Microsoft YaHei", STXihei, serif;
+  background-color: #ffffff;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: 'Times New Roman', Times, "Microsoft YaHei", STXihei, serif;
+}
+.relative {
+  position: relative;
+}
+a,
+.btn {
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  -webkit-backface-visibility: hidden;
+}
+.font-red {
+  color: red;
+}
+option {
+  padding: 6px 10px;
+  line-height: 20px;
+}
+.pd-10 {
+  padding: 10px!important;
+}
+.pd-20 {
+  padding: 20px!important;
+}
+.pdt-10 {
+  padding-top: 10px!important;
+}
+.pdt-20 {
+  padding-top: 20px!important;
+}
+.pdl-10 {
+  padding-left: 10px!important;
+}
+.pdl-20 {
+  padding-left: 20px!important;
+}
+.pdr-10 {
+  padding-right: 10px!important;
+}
+.pdr-20 {
+  padding-right: 20px!important;
+}
+.pdb-10 {
+  padding-bottom: 10px!important;
+}
+.pdb-20 {
+  padding-bottom: 20px!important;
+}
+.mgl-10 {
+  margin-left: 10px!important;
+}
+.mgl-20 {
+  margin-left: 20px!important;
+}
+.mgr-10 {
+  margin-right: 10px!important;
+}
+.mgr-20 {
+  margin-right: 20px!important;
+}
+.mgt-10 {
+  margin-top: 10px!important;
+}
+.mgt-20 {
+  margin-top: 20px!important;
+}
+.mgt-30 {
+  margin-top: 30px!important;
+}
+.mgt-50 {
+  margin-top: 50px!important;
+}
+.mgb-10 {
+  margin-bottom: 10px!important;
+}
+.mgb-20 {
+  margin-bottom: 20px!important;
+}
+.mgb-30 {
+  margin-bottom: 30px!important;
+}
+.mgb-50 {
+  margin-bottom: 50px!important;
+}
+.mgt-0 {
+  margin-top: 0px!important;
+}
+.mgb-0 {
+  margin-bottom: 0px!important;
+}
+.datepicker .fa-calendar {
+  position: relative;
+  top: 0px;
+  left: -102px;
+  color: #428bca;
+}
+.datepicker input.form-control {
+  width: 110px;
+  padding-left: 25px;
+  padding-right: 5px;
+  display: inline-block;
+}
+.datepicker.form-group > label {
+  display: block;
+  padding-bottom: 5px;
+}
+.datepicker select.form-control {
+  width: 50px;
+  padding-right: 2px;
+  padding-left: 2px;
+  margin-right: 5px;
+  text-align: right;
+  display: inline-block;
+}
+.datepicker select.form-control.cmbmin {
+  margin-left: 5px;
+}
+.datepicker.form-group.inline {
+  margin-right: auto;
+  margin-left: auto;
+}
+.btn-cursor {
+  cursor: pointer;
+}
+.line {
+  border-top: 1px solid #dedede;
+  margin: 10px auto;
+}
+.dotted {
+  border-top: 1px dotted #dedede;
+  margin: 10px auto;
+}
+.dashed {
+  border-top: 1px dashed #dedede;
+  margin: 10px auto;
+}
+.div-at-right {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+.div-at-bottom {
+  position: absolute;
+  bottom: 0;
+}
+.title {
+  overflow-wrap: break-word;
+}

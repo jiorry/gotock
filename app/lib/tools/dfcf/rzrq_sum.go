@@ -121,39 +121,6 @@ func (r RzrqSumJSONData) ParseSumData() ([]*RzrqSumItemData, error) {
 	return dataSet, nil
 }
 
-var sumdataCached []*RzrqSumItemData
-
-func isCached() bool {
-	if len(sumdataCached) == 0 {
-		return false
-	}
-
-	t := sumdataCached[0].Date
-	df := "20060102"
-	now := time.Now()
-	tStr := t.Format(df)
-
-	switch now.Weekday() {
-	case time.Sunday:
-		if now.AddDate(0, 0, -2).Format(df) == tStr {
-			return true
-		}
-	case time.Monday:
-		if now.AddDate(0, 0, -3).Format(df) == tStr {
-			if sumdataCached[0].SMrzye == 0 {
-				return false
-			}
-
-			return true
-		}
-	default:
-		if t.Format(df) == tStr {
-			return true
-		}
-	}
-	return false
-}
-
 // RzrqSumData 抓取数据
 func GetRzrqSumData() ([]*RzrqSumItemData, error) {
 	if isCached() {
@@ -206,4 +173,37 @@ func FetchRzrqSumData(page int) ([]byte, error) {
 	}
 
 	return body[bytes.Index(body, []byte("[")) : len(body)-1], nil
+}
+
+var sumdataCached []*RzrqSumItemData
+
+func isCached() bool {
+	if len(sumdataCached) == 0 {
+		return false
+	}
+
+	t := sumdataCached[0].Date
+	df := "20060102"
+	now := time.Now()
+	tStr := t.Format(df)
+
+	switch now.Weekday() {
+	case time.Sunday:
+		if now.AddDate(0, 0, -2).Format(df) == tStr {
+			return true
+		}
+	case time.Monday:
+		if now.AddDate(0, 0, -3).Format(df) == tStr {
+			if sumdataCached[0].SMrzye == 0 {
+				return false
+			}
+
+			return true
+		}
+	default:
+		if now.Format(df) == tStr {
+			return true
+		}
+	}
+	return false
 }

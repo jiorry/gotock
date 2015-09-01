@@ -211,7 +211,7 @@ func isStockCached(code string) bool {
 			return true
 		}
 	default:
-		if t.Format(df) == tStr {
+		if now.Format(df) == tStr {
 			return true
 		}
 	}

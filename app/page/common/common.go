@@ -95,21 +95,21 @@ func Render(p *gos.Page, w io.Writer) {
 	a.HeadLayout.Render(w)
 	w.Write(gos.B_HTML_BODY_BEGIN)
 
-	if a.TopRenderList != nil {
+	if len(a.TopRenderList) > 0 {
 		for _, r := range a.TopRenderList {
 			r.Render(w)
 		}
 	}
 
 	w.Write(b_d1)
-	if a.ContentRenderList != nil {
+	if len(a.ContentRenderList) > 0 {
 		for _, r := range a.ContentRenderList {
 			r.Render(w)
 		}
 	}
 	w.Write(b_d2)
 
-	if a.BottomRenderList != nil {
+	if len(a.BottomRenderList) > 0 {
 		for _, r := range a.BottomRenderList {
 			r.Render(w)
 		}

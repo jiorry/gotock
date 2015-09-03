@@ -16,6 +16,12 @@ func (p *Stock) RequireAuth() (string, []interface{}) {
 	return "/login", nil
 }
 
+func (p *Stock) Befor() bool {
+	p.View.Folder = "rzrq"
+	p.Cache.Type = gos.PAGE_CACHE_FILE
+	return true
+}
+
 func (p *Stock) Prepare() bool {
 	code := p.Ctx.RouterParam("code")
 	if code == "" {
@@ -23,7 +29,6 @@ func (p *Stock) Prepare() bool {
 	}
 
 	p.Title = fmt.Sprint("融资融券信息-", code)
-	p.View.Folder = "rzrq"
 	common.SetupPage(&p.Page, "default")
 	p.AddCss(&gos.ThemeItem{Value: "jquery.jqplot.min.css"})
 

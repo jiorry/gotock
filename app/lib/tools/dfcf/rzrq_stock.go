@@ -13,6 +13,7 @@ import (
 
 	"github.com/kere/gos"
 	"github.com/kere/gos/lib/log"
+	"github.com/kere/gos/lib/util"
 )
 
 var rzrqStockDataMapping []*stockDataMapping
@@ -205,6 +206,12 @@ func isStockCached(code string) bool {
 	}
 
 	tStr := t.Format(df)
+	nowStr := now.Format(df)
+
+	appConf := gos.Configuration.GetConf("app")
+	if util.InStringSlice(appConf.GetStringSlice("holiday"), nowStr) {
+		return true
+	}
 
 	switch now.Weekday() {
 	case time.Sunday:

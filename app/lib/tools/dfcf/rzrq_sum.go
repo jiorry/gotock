@@ -191,6 +191,12 @@ func isCached() bool {
 	}
 
 	tStr := t.Format(df)
+	nowStr := now.Format(df)
+
+	appConf := gos.Configuration.GetConf("app")
+	if util.InStringSlice(appConf.GetStringSlice("holiday"), nowStr) {
+		return true
+	}
 
 	switch now.Weekday() {
 	case time.Sunday:
@@ -206,7 +212,7 @@ func isCached() bool {
 			return true
 		}
 	default:
-		if now.Format(df) == tStr {
+		if nowStr == tStr {
 			return true
 		}
 	}

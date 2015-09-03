@@ -24,10 +24,20 @@ require(
 		];
 
 		function prepareChart(prefix){
-			var i=0,item;
+			var i=0,k=0,item;
 			for(i=0;i<mapdata.length;i++){
 				item = mapdata[i];
 				$('#'+item.targetId).empty();
+				// remove -1
+				for(k=0;k<dataResult.length;k++){
+					if(dataResult[k][prefix+'_'+item.type]<0){
+						if(k==dataResult.length-1){
+							dataResult[k][prefix+'_'+item.type] = dataResult[k-1][prefix+'_'+item.type];
+						}else{
+							dataResult[k][prefix+'_'+item.type] = dataResult[k+1][prefix+'_'+item.type];
+						}
+					}
+				}
 				chart[item.method].call(this, item.targetId, dataResult, prefix+'_'+item.type, item.opt);
 			}
 		}

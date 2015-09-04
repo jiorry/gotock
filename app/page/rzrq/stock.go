@@ -16,8 +16,13 @@ func (p *Stock) RequireAuth() (string, []interface{}) {
 	return "/login", nil
 }
 
-func (p *Stock) Prepare() bool {
+func (p *Stock) Befor() bool {
 	p.View.Folder = "rzrq"
+	p.Cache.Type = gos.PAGE_CACHE_FILE
+	return true
+}
+
+func (p *Stock) Prepare() bool {
 	code := p.Ctx.RouterParam("code")
 	if code == "" {
 		return false

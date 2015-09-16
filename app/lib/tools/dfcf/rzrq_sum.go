@@ -4,12 +4,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 	"reflect"
 	"strings"
 	"time"
 
+	"github.com/jiorry/gotock/app/lib/tools/wget"
 	"github.com/kere/gos"
 	"github.com/kere/gos/lib/log"
 	"github.com/kere/gos/lib/util"
@@ -104,20 +103,6 @@ func (r RzrqSumJSONData) ParseSumData() ([]*RzrqSumItemData, error) {
 		dataSet = append(dataSet, itemData)
 	}
 
-	// // remove -1 value
-	// for i, item := range dataSet {
-	// 	val = reflect.ValueOf(item).Elem()
-	// 	for _, mapping := range rzrqSumDataMapping {
-	// 		if val.FieldByName(mapping.Name).Int() == -1 {
-	// 			var tmpIndex = i - 1
-	// 			if i == 0 {
-	// 				tmpIndex = i + 1
-	// 			}
-	// 			val.FieldByName(mapping.Name).SetInt(reflect.ValueOf(dataSet[tmpIndex]).Elem().FieldByName(mapping.Name).Int())
-	// 		}
-	// 	}
-	// }
-
 	return dataSet, nil
 }
 
@@ -148,30 +133,10 @@ func FetchRzrqSumData(page int) ([]byte, error) {
 
 	url := fmt.Sprintf(formt, "SHSZHSSUM", page, st)
 
-	client := &http.Client{}
-	req, err := http.NewRequest("GET", url, nil)
-	req.Header.Add("User-Agent", `Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36`)
-	resp, err := client.Do(req)
-
+	body, err := wget.Get(url)
 	if err != nil {
-		return nil, fmt.Errorf("error: %s", err)
-	} else if resp.Body == nil {
-		return nil, gos.DoError("error: resp.Body is empty")
+		return nil, err
 	}
-
-	log.App.Info("rzrq fetch sum data")
-
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-
-	if err != nil {
-		return nil, gos.DoError(err)
-	}
-
-	if resp.StatusCode != 200 {
-		return nil, gos.DoError(fmt.Sprintf("http get failed:%d", resp.StatusCode))
-	}
-
 	return body[bytes.Index(body, []byte("[")) : len(body)-1], nil
 }
 

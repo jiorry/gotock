@@ -4,13 +4,12 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 	"reflect"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/jiorry/gotock/app/lib/tools/wget"
 	"github.com/kere/gos"
 	"github.com/kere/gos/lib/log"
 	"github.com/kere/gos/lib/util"
@@ -127,7 +126,6 @@ func GetRzrqStockData(code string) ([]*RzrqStockData, error) {
 	}
 
 	if err = json.Unmarshal(src, &v); err != nil {
-		fmt.Println(string(src), "---------------")
 		return nil, gos.DoError(err)
 	}
 	var dataSet []*RzrqStockData
@@ -149,28 +147,9 @@ func FetchRzrqStockData(code string, page int) ([]byte, error) {
 
 	url := fmt.Sprintf(formt, code, page, st)
 
-	client := &http.Client{}
-	req, err := http.NewRequest("GET", url, nil)
-	req.Header.Add("User-Agent", `Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36`)
-	resp, err := client.Do(req)
-
+	body, err := wget.Get(url)
 	if err != nil {
-		return nil, fmt.Errorf("error: %s", err)
-	} else if resp.Body == nil {
-		return nil, gos.DoError("error: resp.Body is empty")
-	}
-
-	log.App.Info("rzrq fetch data", code)
-
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-
-	if err != nil {
-		return nil, gos.DoError(err)
-	}
-
-	if resp.StatusCode != 200 {
-		return nil, gos.DoError(fmt.Sprintf("http get failed:%d", resp.StatusCode))
+		return nil, err
 	}
 	// var OKPJKmpr={pages:0,data:[{stats:false}]}
 	return body[bytes.Index(body, []byte("[")) : len(body)-1], nil

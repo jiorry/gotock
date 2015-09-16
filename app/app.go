@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/jiorry/gotock/app/api"
+	"github.com/jiorry/gotock/app/lib/tools/dfcf"
 	"github.com/jiorry/gotock/app/page/home"
 	"github.com/jiorry/gotock/app/page/rzrq"
 	"github.com/jiorry/gotock/app/page/user"
@@ -29,6 +30,7 @@ func main() {
 
 	// websocket router
 	// gos.WebSocketRoute("conn", (*hiuser.UserWebSock)(nil))
+	dfcf.RunAlertHgt()
 
 	gos.Start()
 }

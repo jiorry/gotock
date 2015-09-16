@@ -119,7 +119,6 @@ func alertAtHgtChanged(n int, diff float64) error {
 	nowUnix := now.Unix()
 	df := "2006-01-02 15:04"
 	t := fmt.Sprintf("%04d-%02d-%02d", now.Year(), now.Month(), now.Day())
-	gos.Log.Info("alertAtHgtChanged", t)
 
 	begin, err := time.Parse(df, fmt.Sprintf("%s %02d:%02d", t, 9, 0))
 	if err != nil {
@@ -131,6 +130,7 @@ func alertAtHgtChanged(n int, diff float64) error {
 		return err
 	}
 
+	gos.Log.Info("alertAtHgtChanged A", n, diff, begin, end)
 	if nowUnix < beginUnix || nowUnix > end.Unix() {
 		return nil
 	}
@@ -139,6 +139,7 @@ func alertAtHgtChanged(n int, diff float64) error {
 	if minute < n+2 {
 		return nil
 	}
+	gos.Log.Info("alertAtHgtChanged B", minute, n)
 
 	items, err := GetHgtAmount()
 
@@ -149,7 +150,7 @@ func alertAtHgtChanged(n int, diff float64) error {
 
 	amountBefore := items[minute-n].AmountA
 	diffCurrent := amountCurrent - amountBefore
-
+	gos.Log.Info("alertAtHgtChanged C", amountCurrent, amountBefore, diffCurrent)
 	// 如果幅度小于预期，则退出检查
 	if math.Abs(diffCurrent) < diff {
 		return nil

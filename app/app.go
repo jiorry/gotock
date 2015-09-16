@@ -30,7 +30,9 @@ func main() {
 
 	// websocket router
 	// gos.WebSocketRoute("conn", (*hiuser.UserWebSock)(nil))
-	dfcf.RunAlertHgt()
+	if gos.RunMode == "pro" {
+		dfcf.RunAlertHgt()
+	}
 
 	gos.Start()
 }

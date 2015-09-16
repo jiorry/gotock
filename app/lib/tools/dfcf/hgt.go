@@ -66,8 +66,8 @@ func RunAlertHgt() {
 	var errCh = make(chan error)
 	c := time.Tick(1 * time.Minute)
 	conf := gos.Configuration.GetConf("other")
-	minute := conf.GetInt("ght_check_minute")
-	amount := conf.GetFloat("ght_check_amount")
+	minute := conf.GetInt("hgt_check_minute")
+	amount := conf.GetFloat("hgt_check_amount")
 
 	go func() {
 		for range c {
@@ -163,7 +163,7 @@ func alertAtHgtChanged(n int, diff float64) error {
 	password := conf.Get("mail_password")
 
 	client := gos.NewSmtpPlainMail(addr, from, user, password)
-	to := make([]*mail.Address, 0)
+	to := make([]*mail.Address, 1)
 	to[0] = &mail.Address{"jiorry", "a@kere.me"}
 
 	var title string

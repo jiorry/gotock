@@ -11,9 +11,9 @@
     </div>
 
     <div class="row mgt-50">
-        <h4>对数运算</h4>
+        <h4>公式运算</h4>
         <div class="line"></div>
-        <form class="form-inline mgb-20">
+        <!-- <form class="form-inline mgb-20">
             <div class="form-group">
                 <label>P2：</label>
                 <input id="inputP2h" type="number" class="form-control" placeholder="最高值">
@@ -28,22 +28,29 @@
                 <label>=√</label>
                 <input id="inputP2v" type="number" class="form-control" placeholder="结果">
             </div>
-        </form>
-
+        </form> -->
+        <div class="form-group">
+            <label for="selectType">指数</label>
+            <select id="selectType">
+                <option value="0.5">P2 1/2</option>
+                <option value="0.618">P3 0.618-0.382</option>
+                <option value="0.875">最大甘视角 7/8</option>
+            </select>
+        </div>
         <form class="form-inline mgb-20">
             <div class="form-group">
                 <label>P3：</label>
-                <input id="inputP3h" type="number" class="form-control" placeholder="最高值">
-                <span>^0.382</span>
+                <input id="inputPh" type="number" class="form-control" placeholder="最高值">
+                <span id="labelHeigh"></span>
             </div>
             <div class="form-group">
                 <label>+</label>
-                <input id="inputP3l" type="number" class="form-control" placeholder="最低值">
-                <span>^0.618</span>
+                <input id="inputPl" type="number" class="form-control" placeholder="最低值">
+                <span id="labelLow"></span>
             </div>
             <div class="form-group">
                 <label>=</label>
-                <input id="inputP3v" type="number" class="form-control" placeholder="结果">
+                <input id="inputPv" type="number" class="form-control" placeholder="结果">
             </div>
 
         </form>

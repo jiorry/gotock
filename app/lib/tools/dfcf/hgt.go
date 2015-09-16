@@ -125,7 +125,7 @@ func alertAtHgtChanged(n int, diff float64) error {
 		return err
 	}
 	beginUnix := begin.Unix()
-	end, err := time.ParseInLocation(df, fmt.Sprintf("%s %02d:%02d", t, 15, 5), gos.Location())
+	end, err := time.ParseInLocation(df, fmt.Sprintf("%s %02d:%02d", t, 15, 15), gos.Location())
 	if err != nil {
 		return err
 	}
@@ -135,16 +135,16 @@ func alertAtHgtChanged(n int, diff float64) error {
 		return nil
 	}
 
-	minute := int((nowUnix - beginUnix) / 60)
+	minute := int((nowUnix-beginUnix)/60) - 60
 	if minute < n+2 {
 		return nil
 	}
-	gos.Log.Info("alertAtHgtChanged B", minute, n)
 
 	items, err := GetHgtAmount()
-	for _, v := range items {
-		fmt.Println(v.Date, v.AmountA)
+	for i, v := range items {
+		fmt.Println(i, v.Date, v.AmountA)
 	}
+	gos.Log.Info("alertAtHgtChanged B", minute, n, len(items))
 
 	amountCurrent := items[minute].AmountA
 	if amountCurrent == 0 {

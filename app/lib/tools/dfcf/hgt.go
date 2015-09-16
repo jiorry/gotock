@@ -142,6 +142,9 @@ func alertAtHgtChanged(n int, diff float64) error {
 	gos.Log.Info("alertAtHgtChanged B", minute, n)
 
 	items, err := GetHgtAmount()
+	for _, v := range items {
+		fmt.Println(v.Date, v.AmountA)
+	}
 
 	amountCurrent := items[minute].AmountA
 	if amountCurrent == 0 {

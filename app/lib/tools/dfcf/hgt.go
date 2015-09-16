@@ -130,7 +130,7 @@ func alertAtHgtChanged(n int, diff float64) error {
 		return err
 	}
 
-	gos.Log.Info("alertAtHgtChanged A", n, diff, begin, end)
+	gos.Log.Info("alertAtHgtChanged A", n, diff, now, begin, end)
 	if nowUnix < beginUnix || nowUnix > end.Unix() {
 		return nil
 	}

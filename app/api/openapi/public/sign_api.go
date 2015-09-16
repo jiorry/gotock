@@ -2,6 +2,7 @@ package public
 
 import (
 	"fmt"
+
 	"github.com/jiorry/gotock/app/lib/auth"
 
 	"github.com/kere/gos"
@@ -30,7 +31,7 @@ func (a *SignApi) UserLogin(args util.MapData) (bool, error) {
 }
 
 func (a *SignApi) Regist(args util.MapData) (bool, error) {
-	appConf := gos.Configuration.GetConf("app")
+	appConf := gos.Configuration.GetConf("other")
 	if appConf.Get("allow_regist") == "1" {
 		err := auth.Regist(args.GetString("cipher"))
 		return err == nil, err

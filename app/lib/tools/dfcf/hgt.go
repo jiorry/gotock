@@ -31,7 +31,7 @@ func GetHgtAmount() ([]*HgtAmount, error) {
 		return nil, err
 	}
 
-	now := time.Now()
+	now := gos.Now()
 	arr := bytes.Split(body, []byte("\r\n"))
 	var tmp [][]byte
 	result := make([]*HgtAmount, len(arr))
@@ -49,7 +49,7 @@ func GetHgtAmount() ([]*HgtAmount, error) {
 		if err != nil {
 			amountA = -1
 		}
-		date, err = time.Parse("2006/1/2 15:04", fmt.Sprint(now.Format("2006/1/2"), " ", string(tmp[0])))
+		date, err = time.ParseInLocation("2006/1/2 15:04", fmt.Sprint(now.Format("2006/1/2"), " ", string(tmp[0])), gos.Location())
 		if err != nil {
 			date = now
 		}
@@ -94,14 +94,14 @@ var countAlertAtHgtChangedStep = 10
 // alertAtHgtChanged
 // n range of minute
 func alertAtHgtChanged(n int, diff float64) error {
-	now := time.Now()
+	now := gos.Now()
 
 	switch now.Weekday() {
 	case time.Sunday, time.Saturday:
 		return nil
 	}
 
-	appConf := gos.Configuration.GetConf("app")
+	appConf := gos.Configuration.GetConf("other")
 	if util.InStringSlice(appConf.GetStringSlice("holiday"), now.Format("20060102")) {
 		return nil
 	}
@@ -120,12 +120,12 @@ func alertAtHgtChanged(n int, diff float64) error {
 	df := "2006-01-02 15:04"
 	t := fmt.Sprintf("%04d-%02d-%02d", now.Year(), now.Month(), now.Day())
 
-	begin, err := time.Parse(df, fmt.Sprintf("%s %02d:%02d", t, 9, 0))
+	begin, err := time.ParseInLocation(df, fmt.Sprintf("%s %02d:%02d", t, 9, 0), gos.Location())
 	if err != nil {
 		return err
 	}
 	beginUnix := begin.Unix()
-	end, err := time.Parse(df, fmt.Sprintf("%s %02d:%02d", t, 15, 5))
+	end, err := time.ParseInLocation(df, fmt.Sprintf("%s %02d:%02d", t, 15, 5), gos.Location())
 	if err != nil {
 		return err
 	}

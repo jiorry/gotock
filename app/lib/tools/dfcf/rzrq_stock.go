@@ -178,7 +178,7 @@ func isStockCached(code string) bool {
 
 	t := v[0].Date
 	df := "20060102"
-	now := time.Now()
+	now := gos.Now()
 	// 00:00 - 08:00
 	if now.Hour() < 8 {
 		now = now.AddDate(0, 0, -1)
@@ -187,7 +187,7 @@ func isStockCached(code string) bool {
 	tStr := t.Format(df)
 	nowStr := now.Format(df)
 
-	appConf := gos.Configuration.GetConf("app")
+	appConf := gos.Configuration.GetConf("other")
 	if util.InStringSlice(appConf.GetStringSlice("holiday"), nowStr) {
 		return true
 	}

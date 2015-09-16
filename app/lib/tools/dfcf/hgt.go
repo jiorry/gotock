@@ -65,9 +65,9 @@ func GetHgtAmount() ([]*HgtAmount, error) {
 func RunAlertHgt() {
 	var errCh = make(chan error)
 	c := time.Tick(1 * time.Minute)
-	appConf := gos.Configuration.GetConf("other")
-	minute := appConf.GetInt("ght_check_minute")
-	amount := appConf.GetFloat("ght_check_amount")
+	conf := gos.Configuration.GetConf("other")
+	minute := conf.GetInt("ght_check_minute")
+	amount := conf.GetFloat("ght_check_amount")
 
 	go func() {
 		for range c {

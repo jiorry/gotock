@@ -135,7 +135,17 @@ func alertAtHgtChanged(n int, diff float64) error {
 		return nil
 	}
 
-	minute := int((nowUnix-beginUnix)/60) - 60
+	minute := int((nowUnix - beginUnix) / 60)
+
+	// 排除中午时间
+	midA, _ := time.ParseInLocation(df, fmt.Sprintf("%s %02d:%02d", t, 12, 0), gos.Location())
+	midB, _ := time.ParseInLocation(df, fmt.Sprintf("%s %02d:%02d", t, 13, 0), gos.Location())
+	if nowUnix > midA.Unix() && nowUnix < midB.Unix() {
+		return nil
+	} else if nowUnix > midB.Unix() {
+		minute -= 60
+	}
+
 	if minute < n+2 {
 		return nil
 	}

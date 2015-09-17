@@ -141,9 +141,6 @@ func alertAtHgtChanged(n int, diff float64) error {
 	}
 
 	items, err := GetHgtAmount()
-	for i, v := range items {
-		fmt.Println(i, v.Date, v.AmountA)
-	}
 	gos.Log.Info("alertAtHgtChanged B", minute, n, len(items))
 
 	amountCurrent := items[minute].AmountA
@@ -153,7 +150,7 @@ func alertAtHgtChanged(n int, diff float64) error {
 
 	amountBefore := items[minute-n].AmountA
 	diffCurrent := amountCurrent - amountBefore
-	gos.Log.Info("alertAtHgtChanged C", amountCurrent, amountBefore, diffCurrent)
+	gos.Log.Info("alertAtHgtChanged C", "cur", amountCurrent, "bef", amountBefore, "Diff:", diffCurrent)
 	// 如果幅度小于预期，则退出检查
 	if math.Abs(diffCurrent) < diff {
 		return nil

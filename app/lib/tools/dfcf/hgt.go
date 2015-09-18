@@ -116,7 +116,7 @@ func alertAtHgtChanged(n int, diff float64) error {
 		return nil
 	}
 
-	nowUnix := now.Unix()
+	nowUnix := now.Unix() - 10
 	df := "2006-01-02 15:04"
 	t := fmt.Sprintf("%04d-%02d-%02d", now.Year(), now.Month(), now.Day())
 
@@ -154,13 +154,14 @@ func alertAtHgtChanged(n int, diff float64) error {
 	gos.Log.Info("alertAtHgtChanged B", minute, n, len(items))
 
 	amountCurrent := items[minute].AmountA
-	if amountCurrent == 0 {
+	if amountCurrent <= 0 {
+		gos.Log.Info("amountCurrent <=0:", minute, items[minute].Date)
 		return nil
 	}
 
 	amountBefore := items[minute-n].AmountA
 	diffCurrent := amountCurrent - amountBefore
-	gos.Log.Info("alertAtHgtChanged C", "cur", amountCurrent, "bef", amountBefore, "Diff:", diffCurrent)
+	gos.Log.Info("alertAtHgtChanged C", "cur", amountCurrent, "bef", amountBefore, "Diff:", diffCurrent, items[minute].Date, items[minute-n].Date)
 	// 如果幅度小于预期，则退出检查
 	if math.Abs(diffCurrent) < diff {
 		return nil
@@ -189,6 +190,7 @@ func alertAtHgtChanged(n int, diff float64) error {
 		body += fmt.Sprintln(items[minute-i].Date.Format("15:03"), " ", items[minute-i].AmountA)
 	}
 	body += fmt.Sprintln("资金变动：", diffCurrent)
+	body += fmt.Sprintln("http://data.eastmoney.com/bkzj/hgt.html")
 
 	err = client.Send(title, body, to)
 	if err != nil {

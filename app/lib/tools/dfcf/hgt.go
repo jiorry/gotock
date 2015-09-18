@@ -154,7 +154,7 @@ func alertAtHgtChanged(n int, diff float64) error {
 	gos.Log.Info("alertAtHgtChanged B", minute, n, len(items))
 
 	amountCurrent := items[minute].AmountA
-
+	// 如果当前时间的金额小于0，那么退一步取值
 	if amountCurrent < 0 {
 		minute = minute - 1
 		amountCurrent = items[minute].AmountA
@@ -193,8 +193,9 @@ func alertAtHgtChanged(n int, diff float64) error {
 	}
 
 	for i := 0; i < n; i++ {
-		body += fmt.Sprintln(items[minute-i].Date.Format("15:03"), " ", items[minute-i].AmountA)
+		body += fmt.Sprintln(items[minute-i].Date.Format("15:04"), " ", items[minute-i].AmountA)
 	}
+
 	body += fmt.Sprintln("资金变动：", diffCurrent)
 	body += fmt.Sprintln("http://data.eastmoney.com/bkzj/hgt.html")
 

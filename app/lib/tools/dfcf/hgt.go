@@ -166,6 +166,11 @@ func alertAtHgtChanged(n int, diff float64) error {
 	}
 
 	amountBefore := items[minute-n].AmountA
+	if amountBefore < 0 {
+		// 中午13:00 金额 = 0
+		return nil
+	}
+
 	diffCurrent := amountCurrent - amountBefore
 	gos.Log.Info("alertAtHgtChanged C", "cur", amountCurrent, "bef", amountBefore, "Diff:", diffCurrent, items[minute].Date, items[minute-n].Date)
 	// 如果幅度小于预期，则退出检查

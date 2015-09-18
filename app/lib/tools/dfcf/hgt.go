@@ -165,7 +165,7 @@ func alertAtHgtChanged(n int, diff float64) error {
 		return nil
 	}
 
-	amountBefore := items[minute-n].AmountA
+	amountBefore := items[minute-n+1].AmountA
 	if amountBefore < 0 {
 		// 中午13:00 金额 = 0
 		return nil

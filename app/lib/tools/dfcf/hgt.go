@@ -116,7 +116,7 @@ func alertAtHgtChanged(n int, diff float64) error {
 		return nil
 	}
 
-	nowUnix := now.Unix() - 10
+	nowUnix := now.Unix()
 	df := "2006-01-02 15:04"
 	t := fmt.Sprintf("%04d-%02d-%02d", now.Year(), now.Month(), now.Day())
 
@@ -154,7 +154,13 @@ func alertAtHgtChanged(n int, diff float64) error {
 	gos.Log.Info("alertAtHgtChanged B", minute, n, len(items))
 
 	amountCurrent := items[minute].AmountA
-	if amountCurrent <= 0 {
+
+	if amountCurrent < 0 {
+		minute = minute - 1
+		amountCurrent = items[minute].AmountA
+	}
+
+	if amountCurrent < 0 {
 		gos.Log.Info("amountCurrent <=0:", minute, items[minute].Date)
 		return nil
 	}

@@ -15,6 +15,8 @@ require.config({
 require(
 	['ajax', 'util'],
 	function (ajax, util){
+		$('#txtMail').text('admin@onqee.com');
+
 		var h,l,v
 
 		var $ph = $('#inputPh'),

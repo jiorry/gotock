@@ -1,11 +1,12 @@
 <div class="container">
     <div class="row mgt-50">
-        <div class="list-group col-xs-6">
+        <div class="list-group">
             <a href="/rzrq/sum" class="list-group-item">
-                两市融资融券图表
+                <i class="fa fa-bar-chart"></i> 两市融资融券图表
             </a>
-            <a  href="http://cn.investing.com/indices" target="_blank" class="list-group-item">
-                INVESTING 指数中心
+            <a class="list-group-item">
+                <i class="fa fa-envelope-o"></i> 沪港通资金5分钟内变动3.5亿自动邮件提醒 （1用户）
+                <small>发邮件到 <mail>admin@onqee.com</mail> 开通</small>
             </a>
         </div>
     </div>
@@ -13,35 +14,20 @@
     <div class="row mgt-50">
         <h4>公式运算</h4>
         <div class="line"></div>
-        <!-- <form class="form-inline mgb-20">
-            <div class="form-group">
-                <label>P2：</label>
-                <input id="inputP2h" type="number" class="form-control" placeholder="最高值">
-                <span>^2</span>
-            </div>
-            <div class="form-group">
-                <label>+</label>
-                <input id="inputP2l" type="number" class="form-control" placeholder="最低值">
-                <span>^2</span>
-            </div>
-            <div class="form-group">
-                <label>=√</label>
-                <input id="inputP2v" type="number" class="form-control" placeholder="结果">
-            </div>
-        </form> -->
         <div class="form-group">
-            <label for="selectType">指数</label>
+            <label for="selectType">指数参数</label>
             <select id="selectType">
+                <option value="0.618">P1 0.618-0.382</option>
                 <option value="0.5">P2 1/2</option>
-                <option value="0.618">P3 0.618-0.382</option>
-                <option value="0.875">最大甘视角 7/8</option>
+                <option value="0.618">P3 0.382-0.618</option>
+                <option value="0.875">7/8</option>
             </select>
         </div>
         <form class="form-inline mgb-20">
             <div class="form-group">
-                <label>P3：</label>
+                <label>对数计算</label>
                 <input id="inputPh" type="number" class="form-control" placeholder="值A">
-                <span id="labelHeigh"></span>
+                <span id="labelHeigh" style="width:100px"></span>
             </div>
             <div class="form-group">
                 <label>*</label>

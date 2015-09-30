@@ -130,7 +130,7 @@ func alertAtHgtChanged(n int, diff float64) error {
 		return err
 	}
 
-	gos.Log.Info("alertAtHgtChanged A", n, diff, now, begin, end)
+	// gos.Log.Info("alertAtHgtChanged A", n, diff, now, begin, end)
 	if nowUnix < beginUnix || nowUnix > end.Unix() {
 		return nil
 	}
@@ -151,7 +151,7 @@ func alertAtHgtChanged(n int, diff float64) error {
 	}
 
 	items, err := GetHgtAmount()
-	gos.Log.Info("alertAtHgtChanged B", minute, n, len(items))
+	// gos.Log.Info("alertAtHgtChanged B", minute, n, len(items))
 
 	amountCurrent := items[minute].AmountA
 	// 如果当前时间的金额小于0，那么退一步取值
@@ -161,18 +161,16 @@ func alertAtHgtChanged(n int, diff float64) error {
 	}
 
 	if amountCurrent < 0 {
-		gos.Log.Info("amountCurrent <=0:", minute, items[minute].Date)
+		gos.Log.Info("amount current <= 0:", minute, items[minute].Date)
+		if minute > 10 {
+			gos.Log.Info("--", items[minute], items[minute-1], items[minute-2], items[minute-3])
+		}
 		return nil
 	}
 
-	amountBefore := items[minute-n+1].AmountA
-	if amountBefore < 0 {
-		// 中午13:00 金额 = 0
-		return nil
-	}
-
+	amountBefore := items[minute-n].AmountA
 	diffCurrent := amountCurrent - amountBefore
-	gos.Log.Info("alertAtHgtChanged C", "cur", amountCurrent, "bef", amountBefore, "Diff:", diffCurrent, items[minute].Date, items[minute-n].Date)
+	// gos.Log.Info("alertAtHgtChanged C", "cur", amountCurrent, "bef", amountBefore, "Diff:", diffCurrent, items[minute].Date, items[minute-n].Date)
 	// 如果幅度小于预期，则退出检查
 	if math.Abs(diffCurrent) < diff {
 		return nil

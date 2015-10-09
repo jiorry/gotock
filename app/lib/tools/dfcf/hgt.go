@@ -28,7 +28,8 @@ func GetHgtAmount() ([]*HgtAmount, error) {
 	formt := "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=SHT&sty=SHTTMYE&rt=%v"
 	body, err := wget.Get(fmt.Sprintf(formt, r.Float64()))
 	if err != nil {
-		return nil, err
+		gos.Log.Error(err)
+		return nil, nil
 	}
 
 	now := gos.Now()

@@ -28,5 +28,18 @@ func (p *Default) Prepare() bool {
 	// p.Layout.TopRenderList = nil
 	// p.Layout.BottomRenderList = nil
 	// p.AddHead("<base href=\"/\">")
+
+	conf := gos.Configuration.GetConf("other")
+
+	data := DefaultData{}
+	data.Diff = conf.GetFloat("hgt_check_amount")
+	data.Min = conf.GetInt("hgt_check_minute")
+
+	p.Data = data
 	return true
+}
+
+type DefaultData struct {
+	Diff float64
+	Min  int
 }

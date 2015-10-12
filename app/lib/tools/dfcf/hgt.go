@@ -208,7 +208,7 @@ func alertAtHgtChanged(n int, diff float64) error {
 		body += fmt.Sprintln(items[minute-i].Date.Format("15:04"), " ", items[minute-i].AmountA)
 	}
 
-	body += fmt.Sprintln("资金变动：", diffCurrent)
+	body += fmt.Sprintf("资金变动：%.2f\n", diffCurrent)
 	body += fmt.Sprintln("http://data.eastmoney.com/bkzj/hgt.html")
 
 	err = client.Send(title, body, to)

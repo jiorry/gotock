@@ -141,11 +141,19 @@ func GetRzrqStockData(code string) ([]*RzrqStockData, error) {
 // FetchRzrqStockData 抓取数据
 func FetchRzrqStockData(code string, page int) ([]byte, error) {
 	st := time.Now().Unix() / 30
-	//var% OKPJKmpr={pages:10,data:
-	//http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=FD&sty=MTE&mkt=1&code=600718&st=0&sr=1&p=5&ps=50&js=var%20OKPJKmpr={pages:(pc),data:[(x)]}&rt=48027423
-	formt := "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=FD&sty=MTE&mkt=1&code=%s&st=0&sr=1&p=%d&ps=50&js=var%%20OKPJKmpr={pages:(pc),data:[(x)]}&rt=%d"
+	// var% OKPJKmpr={pages:10,data:
+	// http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=FD&sty=MTE&mkt=1&code=600718&st=0&sr=1&p=5&ps=50&js=var%20OKPJKmpr={pages:(pc),data:[(x)]}&rt=48027423
+	// http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=FD&sty=MTE&mkt=2&code=002161&st=0&sr=1&p=5&ps=50&js=var%20QOwpoBrj={pages:(pc),data:[(x)]}&rt=48154207
+	// http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=FD&sty=MTE&mkt=2&code=300001&st=0&sr=1&p=5&ps=50&js=var%20laheCxDp={pages:(pc),data:[(x)]}&rt=48154224
 
-	url := fmt.Sprintf(formt, code, page, st)
+	formt := "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=FD&sty=MTE&mkt=%d&code=%s&st=0&sr=1&p=%d&ps=50&js=var%%20OKPJKmpr={pages:(pc),data:[(x)]}&rt=%d"
+	mkt := 2
+	switch code[0:1] {
+	case "6":
+		mkt = 1
+	}
+
+	url := fmt.Sprintf(formt, mkt, code, page, st)
 
 	body, err := wget.Get(url)
 	if err != nil {

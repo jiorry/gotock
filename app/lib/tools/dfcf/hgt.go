@@ -28,8 +28,7 @@ func GetHgtAmount() ([]*HgtAmount, error) {
 	formt := "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=SHT&sty=SHTTMYE&rt=%v"
 	body, err := wget.Get(fmt.Sprintf(formt, r.Float64()))
 	if err != nil {
-		gos.Log.Error(err)
-		return nil, nil
+		return nil, err
 	}
 
 	now := gos.Now()
@@ -152,6 +151,9 @@ func alertAtHgtChanged(n int, diff float64) error {
 	}
 
 	items, err := GetHgtAmount()
+	if err != nil {
+		return err
+	}
 	// gos.Log.Info("alertAtHgtChanged B", minute, n, len(items))
 
 	amountCurrent := items[minute].AmountA

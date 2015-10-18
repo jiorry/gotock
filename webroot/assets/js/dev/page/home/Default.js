@@ -28,10 +28,11 @@ require(
 
 		$inputPA.change(function(){
 			$inputPB.val(1-parseFloat($inputPA.val()));
-		})
+		});
 		$inputPB.change(function(){
 			$inputPA.val(1-parseFloat($inputPB.val()));
-		})
+		});
+
 		function setLabel(){
 			var power = parseFloat($typ.val());
 			$inputPA.val(1-power);
@@ -55,7 +56,10 @@ require(
 				$pV.val(0);
 			}
 			calculate();
-		})
+		}).dblclick(function(){
+			$pA.val('');
+		});
+
 		$pB.focusout(function(){
 			h = parseFloat($pA.val());
 			l = parseFloat($pB.val());
@@ -68,7 +72,10 @@ require(
 				$pV.val(0);
 			}
 			calculate();
-		})
+		}).dblclick(function(){
+			$pB.val('');
+		});
+
 		$pV.focusout(function(){
 			h = parseFloat($pA.val());
 			l = parseFloat($pB.val());
@@ -81,7 +88,9 @@ require(
 				$pB.val(0);
 			}
 			calculate();
-		})
+		}).dblclick(function(){
+			$pV.val('');
+		});
 
 		function calculate(){
 			var power = parseFloat($typ.val());

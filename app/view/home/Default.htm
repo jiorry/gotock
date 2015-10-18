@@ -1,3 +1,12 @@
+<style>
+.input-aa{
+    width:120px!important;
+}
+.input-bb{
+    padding: 0px 5px;
+    width:80px!important;
+}
+</style>
 <div class="container">
     <div class="row mgt-50">
         <div class="list-group">
@@ -17,26 +26,30 @@
         <div class="form-group">
             <label for="selectType">指数参数</label>
             <select id="selectType">
-                <option value="0.618">P1 0.618-0.382</option>
+                <option value="0.125">1/8</option>
+                <option value="0.382">P1 0.382</option>
                 <option value="0.5">P2 1/2</option>
-                <option value="0.382">P3 0.382-0.618</option>
-                <option value="0.875">1/8</option>
+                <option value="0.618">P3 0.618</option>
+                <option value="0.875">7/8</option>
             </select>
         </div>
+
         <form class="form-inline mgb-20">
             <div class="form-group">
                 <label>对数计算</label>
-                <input id="inputPh" type="number" class="form-control" placeholder="值A">
-                <span id="labelHeigh" style="width:100px"></span>
+                <input id="inputA" type="number" class="form-control input-aa" placeholder="值A">
+                ^
+                <input id="inputPA" type="number" step="0.01" class="input-bb form-control" placeholder="系数">
             </div>
             <div class="form-group">
                 <label>*</label>
-                <input id="inputPl" type="number" class="form-control" placeholder="值B">
-                <span id="labelLow"></span>
+                <input id="inputB" type="number" class="form-control input-aa" placeholder="值B">
+                ^
+                <input id="inputPB" type="number" step="0.01" class="input-bb form-control" placeholder="系数">
             </div>
             <div class="form-group">
                 <label>=</label>
-                <input id="inputPv" type="number" class="form-control" placeholder="结果">
+                <input id="inputV" type="number" class="form-control input-aa" placeholder="结果">
             </div>
 
         </form>

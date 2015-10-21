@@ -26,12 +26,12 @@ require(
 			$inputPA = $('#inputPA'),
 			$inputPB = $('#inputPB');
 
-		$inputPA.change(function(){
-			$inputPB.val(1-parseFloat($inputPA.val()));
-		});
-		$inputPB.change(function(){
-			$inputPA.val(1-parseFloat($inputPB.val()));
-		});
+		// $inputPA.change(function(){
+		// 	$inputPB.val(1-parseFloat($inputPA.val()));
+		// });
+		// $inputPB.change(function(){
+		// 	$inputPA.val(1-parseFloat($inputPB.val()));
+		// });
 
 		function setLabel(){
 			var power = parseFloat($typ.val());

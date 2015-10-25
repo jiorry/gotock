@@ -35,6 +35,7 @@ func SetupPage(p *gos.Page, theme string) {
 	p.JsPosition = "end"
 
 	// p.AddHead("<link href=\"//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css\" rel=\"stylesheet\">")
+	p.AddHead(`<meta name="viewport" content="width=device-width, initial-scale=1">`)
 	p.AddCss(&gos.ThemeItem{Value: "bootstrap.min.css"})
 	p.AddCss(&gos.ThemeItem{Value: "font-awesome.min.css"})
 

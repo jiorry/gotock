@@ -1,10 +1,14 @@
 <style>
-.input-aa{
-    width:120px!important;
+.td-sm{
+    max-width: 8rem;
 }
-.input-bb{
-    padding: 0px 5px;
-    width:80px!important;
+.form-control{
+    padding-left: .25rem;
+    padding-right: .25rem;
+}
+.form-control-sm{
+    padding-left: .5rem;
+    padding-right: .5rem;
 }
 </style>
 <div class="container">
@@ -20,38 +24,31 @@
         </div>
     </div>
 
-    <div class="row mgt-50">
-        <h4>公式运算</h4>
-        <div class="line"></div>
-        <div class="form-group">
-            <label for="selectType">指数参数</label>
-            <select id="selectType">
-                <option value="0.125">1/8</option>
-                <option value="0.382">P1 0.382</option>
-                <option value="0.5">P2 1/2</option>
-                <option value="0.618">P3 0.618</option>
-                <option value="0.875">7/8</option>
-            </select>
-        </div>
-
-        <form class="form-inline mgb-20">
-            <div class="form-group">
-                <label>对数计算</label>
-                <input id="inputA" type="number" class="form-control input-aa" placeholder="值A">
-                ^
-                <input id="inputPA" type="number" step="0.01" class="input-bb form-control" placeholder="系数">
-            </div>
-            <div class="form-group">
-                <label>*</label>
-                <input id="inputB" type="number" class="form-control input-aa" placeholder="值B">
-                ^
-                <input id="inputPB" type="number" step="0.01" class="input-bb form-control" placeholder="系数">
-            </div>
-            <div class="form-group">
-                <label>=</label>
-                <input id="inputV" type="number" class="form-control input-aa" placeholder="结果">
-            </div>
-
-        </form>
+    <div class="row mgt-20">
+        <table class="form-calculate">
+            <tr>
+                <th colspan="8">
+                    <label for="selectType">对数计算</label>
+                    <select id="selectType">
+                        <option value="0.125">1/8</option>
+                        <option value="0.382">P1 0.382</option>
+                        <option value="0.5">P2 1/2</option>
+                        <option value="0.618">P3 0.618</option>
+                        <option value="0.875">7/8</option>
+                    </select>
+                </th>
+            </tr>
+            <tr>
+                <td><input id="inputA" type="number" class="form-control" placeholder="值A"></td>
+                <td>^</td>
+                <td class="td-sm"><input id="inputPA" type="text" step="0.01" class="form-control-sm form-control" placeholder="系数"></td>
+                <td>*</td>
+                <td><input id="inputB" type="number" class="form-control" placeholder="值B"></td>
+                <td>^</td>
+                <td class="td-sm"><input id="inputPB" type="text" step="0.01" class="form-control-sm form-control" placeholder="系数"></td>
+                <td>=</td>
+                <td><input id="inputV" type="number" class="form-control" placeholder="结果"></td>
+            </tr>
+        </table>
     </div>
 </div>

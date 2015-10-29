@@ -26,19 +26,14 @@ require(
 			$inputPA = $('#inputPA'),
 			$inputPB = $('#inputPB');
 
-		// $inputPA.change(function(){
-		// 	$inputPB.val(1-parseFloat($inputPA.val()));
-		// });
-		// $inputPB.change(function(){
-		// 	$inputPA.val(1-parseFloat($inputPB.val()));
-		// });
-
 		function setLabel(){
 			var power = parseFloat($typ.val());
 			$inputPA.val(1-power);
 			$inputPB.val(power);
+
+			$inputHPA.val(parseFloat($typ.val()));
 		}
-		setLabel();
+
 
 		$typ.change(function(){
 			$pA.trigger('focusout');
@@ -115,21 +110,11 @@ require(
 			$phB = $('#inputHB'),
 			$phC = $('#inputHC'),
 			$phV = $('#inputHV'),
-			$typH = $('#selectTypeH'),
 			$inputHPA = $('#inputHPA');
 
 		$phA.focusout(calculateH);
 		$phB.focusout(calculateH);
 		$phC.focusout(calculateH);
-
-		$typH.change(function(){
-			$phA.trigger('focusout');
-			setLabelH();
-		})
-		function setLabelH(){
-			$inputHPA.val(parseFloat($typH.val()));
-		}
-		setLabelH();
 
 		function calculateH(){
 			var power = parseFloat($inputHPA.val());
@@ -140,4 +125,6 @@ require(
 				$phV.val((Math.pow(h/l, power)*c).toFixed(2));
 			}
 		}
+
+		setLabel();
 });

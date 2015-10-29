@@ -17,7 +17,7 @@ require(
 	function (ajax, util){
 		$('#txtMail').text('admin@onqee.com');
 
-		var h,l,v
+		var h,l,v,c;
 
 		var $pA = $('#inputA'),
 			$pB = $('#inputB'),
@@ -55,7 +55,7 @@ require(
 			if(h>0&&l>0&&v>0){
 				$pV.val(0);
 			}
-			calculate();
+			calculateP();
 		}).dblclick(function(){
 			$pA.val('');
 		});
@@ -71,7 +71,7 @@ require(
 			if(h>0&&l>0&&v>0){
 				$pV.val(0);
 			}
-			calculate();
+			calculateP();
 		}).dblclick(function(){
 			$pB.val('');
 		});
@@ -87,27 +87,57 @@ require(
 			if(h>0&&l>0&&v>0){
 				$pB.val(0);
 			}
-			calculate();
+			calculateP();
 		}).dblclick(function(){
 			$pV.val('');
 		});
 
-		function calculate(){
-			var power = parseFloat($typ.val());
+		function calculateP(){
+			var powerA = parseFloat($inputPA.val()),
+				powerB = parseFloat($inputPB.val());
 			h = parseFloat($pA.val());
 			l = parseFloat($pB.val());
 			v = parseFloat($pV.val());
 
 			if(h>0 && l>0){
-				v = Math.pow(h, 1-power) * Math.pow(l, power);
+				v = Math.pow(h, powerB) * Math.pow(l, powerA);
 				$pV.val(v.toFixed(2));
 			}else if(l>0 && v>0){ // l>0 && v>0
-			   h = Math.pow(v/Math.pow(l, power), 1/(1-power))
+			   h = Math.pow(v/Math.pow(l, powerA), 1/(powerB))
 			   $pA.val(h.toFixed(2));
 		   	}else if(h>0 && v>0){
-			   l = Math.pow(v/Math.pow(h, 1-power), 1/power)
+			   l = Math.pow(v/Math.pow(h, powerB), 1/powerA)
 			   $pB.val(l.toFixed(2));
 		   	}
 		}
+// ---------------------------------
+		var $phA = $('#inputHA'),
+			$phB = $('#inputHB'),
+			$phC = $('#inputHC'),
+			$phV = $('#inputHV'),
+			$typH = $('#selectTypeH'),
+			$inputHPA = $('#inputHPA');
 
+		$phA.focusout(calculateH);
+		$phB.focusout(calculateH);
+		$phC.focusout(calculateH);
+
+		$typH.change(function(){
+			$phA.trigger('focusout');
+			setLabelH();
+		})
+		function setLabelH(){
+			$inputHPA.val(parseFloat($typH.val()));
+		}
+		setLabelH();
+
+		function calculateH(){
+			var power = parseFloat($inputHPA.val());
+			h = parseFloat($phA.val());
+			l = parseFloat($phB.val());
+			c = parseFloat($phC.val());
+			if(h>0 && l>0 && c>0 && power>0){
+				$phV.val((Math.pow(h/l, power)*c).toFixed(2));
+			}
+		}
 });

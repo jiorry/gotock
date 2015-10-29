@@ -26,81 +26,77 @@ a,
 .font-red {
   color: red;
 }
-option {
-  padding: 6px 10px;
-  line-height: 20px;
+.pd-1 {
+  padding: 1rem!important;
 }
-.pd-10 {
-  padding: 10px!important;
+.pd-2 {
+  padding: 2rem!important;
 }
-.pd-20 {
-  padding: 20px!important;
+.pdt-1 {
+  padding-top: 1rem!important;
 }
-.pdt-10 {
-  padding-top: 10px!important;
+.pdt-2 {
+  padding-top: 2rem!important;
 }
-.pdt-20 {
-  padding-top: 20px!important;
+.pdl-1 {
+  padding-left: 1rem!important;
 }
-.pdl-10 {
-  padding-left: 10px!important;
+.pdl-2 {
+  padding-left: 2rem!important;
 }
-.pdl-20 {
-  padding-left: 20px!important;
+.pdr-1 {
+  padding-right: 1rem!important;
 }
-.pdr-10 {
-  padding-right: 10px!important;
+.pdr-2 {
+  padding-right: 2rem!important;
 }
-.pdr-20 {
-  padding-right: 20px!important;
+.pdb-1 {
+  padding-bottom: 1rem!important;
 }
-.pdb-10 {
-  padding-bottom: 10px!important;
+.pdb-2 {
+  padding-bottom: 2rem!important;
 }
-.pdb-20 {
-  padding-bottom: 20px!important;
+.mgl-1 {
+  margin-left: 1rem!important;
 }
-.mgl-10 {
-  margin-left: 10px!important;
+.mgl-2 {
+  margin-left: 2rem!important;
 }
-.mgl-20 {
-  margin-left: 20px!important;
+.mgr-1 {
+  margin-right: 1rem!important;
 }
-.mgr-10 {
-  margin-right: 10px!important;
+.mgr-2 {
+  margin-right: 2rem!important;
 }
-.mgr-20 {
-  margin-right: 20px!important;
+.mgt-1 {
+  margin-top: 1rem!important;
 }
-.mgt-10 {
-  margin-top: 10px!important;
+.mgt-2 {
+  margin-top: 2rem!important;
 }
-.mgt-20 {
-  margin-top: 20px!important;
+.mgt-3 {
+  margin-top: 3rem!important;
 }
-.mgt-30 {
-  margin-top: 30px!important;
+.mgt-5 {
+  margin-top: 5rem!important;
 }
-.mgt-50 {
-  margin-top: 50px!important;
+.mgb-1 {
+  margin-bottom: 1rem!important;
 }
-.mgb-10 {
-  margin-bottom: 10px!important;
+.mgb-2 {
+  margin-bottom: 2rem!important;
 }
-.mgb-20 {
-  margin-bottom: 20px!important;
+.mgb-3 {
+  margin-bottom: 3rem!important;
 }
-.mgb-30 {
-  margin-bottom: 30px!important;
-}
-.mgb-50 {
-  margin-bottom: 50px!important;
+.mgb-5 {
+  margin-bottom: 5rem!important;
 }
 .mgt-0 {
-  margin-top: 0px!important;
+  margin-top: 0!important;
 }
 .mgb-0 {
-  margin-bottom: 0px!important;
+  margin-bottom: 0!important;
 }
 .datepicker .fa-calendar {
   position: relative;
@@ -159,4 +155,18 @@ option {
 }
 .title {
   overflow-wrap: break-word;
+}
+.form-calculate .td-sm {
+  max-width: 8rem;
+}
+.form-calculate td {
+  padding-right: .25rem;
+}
+.form-calculate .form-control {
+  padding-left: .25rem;
+  padding-right: .25rem;
+}
+.form-calculate .form-control-sm {
+  padding-left: .5rem;
+  padding-right: .5rem;
 }

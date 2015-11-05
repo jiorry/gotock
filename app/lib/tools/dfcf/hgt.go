@@ -44,11 +44,11 @@ func GetHgtAmount() ([]*HgtAmount, error) {
 		tmp = bytes.Split(v, gos.B_SEMICOLON)
 		amountA, err = util.Str2Float64(string(tmp[1]))
 		if err != nil {
-			amountA = -1
+			amountA = 0
 		}
 		amountB, err = util.Str2Float64(string(tmp[2]))
 		if err != nil {
-			amountA = -1
+			amountA = 0
 		}
 		date, err = time.ParseInLocation("2006/1/2 15:04", fmt.Sprint(now.Format("2006/1/2"), " ", string(tmp[0])), gos.GetSite().Location)
 		if err != nil {
@@ -158,26 +158,20 @@ func alertAtHgtChanged(n int, diff float64) error {
 	// gos.Log.Info("alertAtHgtChanged B", minute, n, len(items))
 
 	amountCurrent := items[minute].AmountA
-	// 如果当前时间的金额小于0，那么退一步取值
-	if amountCurrent < 0 {
+	// 如果当前时间的金额==0，那么退一步取值
+	if amountCurrent == 0 {
 		minute = minute - 1
 		amountCurrent = items[minute].AmountA
 	}
-
-	if amountCurrent < 0 {
-		gos.Log.Info("amount current <= 0:", minute, items[minute].Date)
-		if minute > 10 {
-			gos.Log.Info("--", items[minute], items[minute-1], items[minute-2], items[minute-3])
-		}
+	// 如果任然==0，判断是数据有误
+	if amountCurrent == 0 && minute > 10 {
+		gos.Log.Info("amountCurrent==0 min=", minute, " ", items[minute], items[minute-1], items[minute-2], items[minute-3])
 		return nil
 	}
 
 	amountBefore := items[minute-n].AmountA
-	if amountBefore < 0 {
-		gos.Log.Info("amount before <= 0:", minute, items[minute].Date)
-		if minute > 10 {
-			gos.Log.Info("--", items[minute], items[minute-1], items[minute-2], items[minute-3])
-		}
+	if amountBefore == 0 && minute > 10 {
+		gos.Log.Info("amountBefore==0 min=", minute, " ", items[minute], items[minute-1], items[minute-2], items[minute-3])
 		return nil
 	}
 

@@ -128,15 +128,16 @@ func GetRzrqSumData() ([]*RzrqSumItemData, error) {
 
 // FetchRzrqSumData 抓取数据
 func FetchRzrqSumData(page int) ([]byte, error) {
-	st := gos.Now().Unix() / 30
+	st := gos.NowInLocation().Unix() / 30
 	formt := "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=FD&sty=%s&st=0&sr=1&p=%d&ps=50&js=var%%20ruOtumOo={pages:(pc),data:[(x)]}&rt=%d"
 
 	url := fmt.Sprintf(formt, "SHSZHSSUM", page, st)
 
-	body, err := wget.Get(url)
+	body, err := wget.GetBody(url)
 	if err != nil {
-		return nil, err
+		return nil, gos.DoError(err)
 	}
+
 	return body[bytes.Index(body, []byte("[")) : len(body)-1], nil
 }
 
@@ -149,7 +150,7 @@ func isCached() bool {
 
 	t := sumdataCached[0].Date
 	df := "20060102"
-	now := gos.Now()
+	now := gos.NowInLocation()
 	// 00:00 - 08:00
 	if now.Hour() < 8 {
 		now = now.AddDate(0, 0, -1)

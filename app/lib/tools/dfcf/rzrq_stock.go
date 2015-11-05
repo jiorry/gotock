@@ -155,10 +155,11 @@ func FetchRzrqStockData(code string, page int) ([]byte, error) {
 
 	url := fmt.Sprintf(formt, mkt, code, page, st)
 
-	body, err := wget.Get(url)
+	body, err := wget.GetBody(url)
 	if err != nil {
-		return nil, err
+		return nil, gos.DoError(err)
 	}
+
 	// var OKPJKmpr={pages:0,data:[{stats:false}]}
 	return body[bytes.Index(body, []byte("[")) : len(body)-1], nil
 }
@@ -186,7 +187,8 @@ func isStockCached(code string) bool {
 
 	t := v[0].Date
 	df := "20060102"
-	now := gos.Now()
+	now := gos.NowInLocation()
+
 	// 00:00 - 08:00
 	if now.Hour() < 8 {
 		now = now.AddDate(0, 0, -1)

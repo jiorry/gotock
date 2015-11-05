@@ -26,12 +26,13 @@ type HgtAmount struct {
 func GetHgtAmount() ([]*HgtAmount, error) {
 	r := rand.New(rand.NewSource(99))
 	formt := "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=SHT&sty=SHTTMYE&rt=%v"
-	body, err := wget.Get(fmt.Sprintf(formt, r.Float64()))
+
+	body, err := wget.GetBody(fmt.Sprintf(formt, r.Float64()))
 	if err != nil {
-		return nil, err
+		return nil, gos.DoError(err)
 	}
 
-	now := gos.Now()
+	now := gos.NowInLocation()
 	arr := bytes.Split(body, []byte("\r\n"))
 	var tmp [][]byte
 	result := make([]*HgtAmount, len(arr))
@@ -49,7 +50,7 @@ func GetHgtAmount() ([]*HgtAmount, error) {
 		if err != nil {
 			amountA = -1
 		}
-		date, err = time.ParseInLocation("2006/1/2 15:04", fmt.Sprint(now.Format("2006/1/2"), " ", string(tmp[0])), gos.Location())
+		date, err = time.ParseInLocation("2006/1/2 15:04", fmt.Sprint(now.Format("2006/1/2"), " ", string(tmp[0])), gos.GetSite().Location)
 		if err != nil {
 			date = now
 		}
@@ -94,7 +95,7 @@ var countAlertAtHgtChangedStep = 10
 // alertAtHgtChanged
 // n range of minute
 func alertAtHgtChanged(n int, diff float64) error {
-	now := gos.Now()
+	now := gos.NowInLocation()
 
 	switch now.Weekday() {
 	case time.Sunday, time.Saturday:
@@ -120,12 +121,12 @@ func alertAtHgtChanged(n int, diff float64) error {
 	df := "2006-01-02 15:04"
 	t := fmt.Sprintf("%04d-%02d-%02d", now.Year(), now.Month(), now.Day())
 
-	begin, err := time.ParseInLocation(df, fmt.Sprintf("%s %02d:%02d", t, 9, 0), gos.Location())
+	begin, err := time.ParseInLocation(df, fmt.Sprintf("%s %02d:%02d", t, 9, 0), gos.GetSite().Location)
 	if err != nil {
 		return err
 	}
 	beginUnix := begin.Unix()
-	end, err := time.ParseInLocation(df, fmt.Sprintf("%s %02d:%02d", t, 15, 15), gos.Location())
+	end, err := time.ParseInLocation(df, fmt.Sprintf("%s %02d:%02d", t, 15, 15), gos.GetSite().Location)
 	if err != nil {
 		return err
 	}
@@ -138,8 +139,8 @@ func alertAtHgtChanged(n int, diff float64) error {
 	minute := int((nowUnix - beginUnix) / 60)
 
 	// 排除中午时间
-	midA, _ := time.ParseInLocation(df, fmt.Sprintf("%s %02d:%02d", t, 12, 0), gos.Location())
-	midB, _ := time.ParseInLocation(df, fmt.Sprintf("%s %02d:%02d", t, 13, 0), gos.Location())
+	midA, _ := time.ParseInLocation(df, fmt.Sprintf("%s %02d:%02d", t, 12, 0), gos.GetSite().Location)
+	midB, _ := time.ParseInLocation(df, fmt.Sprintf("%s %02d:%02d", t, 13, 0), gos.GetSite().Location)
 	if nowUnix > midA.Unix() && nowUnix < midB.Unix() {
 		return nil
 	} else if nowUnix > midB.Unix() {

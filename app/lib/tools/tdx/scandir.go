@@ -1,4 +1,4 @@
-package txd
+package tdx
 
 import (
 	"os"

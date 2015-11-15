@@ -1,14 +1,15 @@
 package main
 
 import (
-	"../../app/lib/tools/txd"
 	"fmt"
+
+	"github.com/jiorry/gotock/app/lib/tools/tdx"
 )
 
 func main() {
 	folder := `C:\Program360\new_tdx\vipdoc\sh\lday`
 
-	result, err := txd.ScanDirGetAllFileName(folder, ".day")
+	result, err := tdx.ScanDirGetAllFileName(folder, ".day")
 	if err != nil {
 		fmt.Println("error: ", err)
 		return

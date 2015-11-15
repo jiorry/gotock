@@ -1,12 +1,13 @@
-package txd
+package tdx
 
 import (
 	"fmt"
-	"github.com/kere/gos/db"
 	"math"
 	"os"
 	"path"
 	"runtime"
+
+	"github.com/kere/gos/db"
 )
 
 var threadNum int = 50

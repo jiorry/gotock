@@ -1,11 +1,12 @@
-package txd
+package tdx
 
 import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
-	"github.com/kere/gos/db"
 	"os"
+
+	"github.com/kere/gos/db"
 )
 
 type StoreDaily struct {

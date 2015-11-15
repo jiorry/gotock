@@ -1,12 +1,13 @@
-package txd
+package tdx
 
 import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
-	"github.com/kere/gos/db"
 	"math"
 	"os"
+
+	"github.com/kere/gos/db"
 )
 
 type Store1m struct {

@@ -151,7 +151,8 @@ func isCached() bool {
 	t := sumdataCached[0].Date
 	df := "20060102"
 	now := gos.NowInLocation()
-	// 00:00 - 08:00
+
+	// 00:00 - 08:00 当作前一天看待
 	if now.Hour() < 8 {
 		now = now.AddDate(0, 0, -1)
 	}
@@ -171,7 +172,7 @@ func isCached() bool {
 		}
 	case time.Monday:
 		if now.AddDate(0, 0, -3).Format(df) == tStr {
-			if sumdataCached[0].SMrzye == 0 {
+			if sumdataCached[0].SMrzye < 0 {
 				return false
 			}
 

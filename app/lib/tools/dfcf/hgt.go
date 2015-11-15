@@ -196,9 +196,9 @@ func alertAtHgtChanged(n int, diff float64) error {
 	var body string
 
 	if diffCurrent > 0 {
-		title = fmt.Sprint("沪港通资金异动 +", diffCurrent)
+		title = fmt.Sprintf("沪港通资金异动 %.2f", diffCurrent)
 	} else {
-		title = fmt.Sprint("沪港通资金异动 ", diffCurrent)
+		title = fmt.Sprintf("沪港通资金异动 %.2f", diffCurrent)
 	}
 
 	for i := 0; i < n; i++ {

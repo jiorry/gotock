@@ -1,7 +1,7 @@
 package main
 
 import (
-	"../../app/lib/tools/txd"
+	"github.com/jiorry/gotock/app/lib/tools/tdx"
 	"github.com/kere/gos/db"
 	"github.com/kere/gos/lib/conf"
 	"github.com/kere/gos/lib/log"
@@ -13,7 +13,7 @@ func main() {
 	db.Init("app", c.GetConf("db").MapData())
 	db.Current().Log = log.NewEmpty()
 
-	txd.ScanAndStore("sh", `C:\Program360\new_tdx\vipdoc\sh\lday`, ".day")
+	tdx.ScanAndStore("sh", `C:\Program360\new_tdx\vipdoc\sh\lday`, ".day")
 
-	txd.ScanAndStore("sz", `C:\Program360\new_tdx\vipdoc\sz\lday`, ".day")
+	tdx.ScanAndStore("sz", `C:\Program360\new_tdx\vipdoc\sz\lday`, ".day")
 }

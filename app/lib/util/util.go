@@ -31,6 +31,15 @@ func ParsePercent(str string) float64 {
 	}
 }
 
+func ParseMoney(str string) float64 {
+	str = strings.Replace(str, ",", "", -1)
+	f, err := strconv.ParseFloat(str, 64)
+	if err != nil {
+		return 0.0
+	}
+	return f
+}
+
 func ParseMoneyCN(str string) float64 {
 	str = strings.TrimSpace(str)
 	if str == "--" {

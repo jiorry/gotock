@@ -3,14 +3,102 @@ package dfcf
 import (
 	"fmt"
 	"reflect"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/jiorry/gotock/app/lib/tools/wget"
 	"github.com/jiorry/gotock/app/lib/util"
+	"github.com/kere/gos"
+	"github.com/kere/gos/db"
 )
 
 func init() {
 
+}
+
+// FillCwfx 抓取并且填充数据
+func FillCwfx(lastDate string) {
+	ist := db.NewInsertBuilder("fin_cwzb")
+	exist := db.NewExistsBuilder("fin_cwzb")
+	dataset, _ := db.NewQueryBuilder("stock").Select("id,code,ctype").Limit(0).Query()
+
+	for i, data := range dataset {
+		fmt.Println("--", i, "--", data.GetString("code"), data.GetString("ctype"))
+		if exist.Where("stock_id=? and date=?", data.GetInt64("id"), lastDate).Exists() {
+			gos.Log.Info("exists", lastDate, "return")
+			continue
+		}
+
+		cwzbList, zcfzbList, lrbList, xjllbList, finPercentList, err := FetchCwfx(data.GetString("code"), data.GetString("ctype"))
+		if err != nil {
+			gos.DoError(err)
+			continue
+		}
+
+		if len(cwzbList) == 0 {
+			continue
+		}
+
+		for _, row := range cwzbList {
+			row.StockID = data.GetInt64("id")
+
+			if exist.Table("fin_cwzb").Where("stock_id=? and date=?", row.StockID, row.Date).Exists() {
+				gos.Log.Info("exists fin_cwzb", row.Date, "return")
+				continue
+			}
+
+			gos.Log.Info("insert fin_cwzb", row.Date)
+			ist.Table("fin_cwzb").Insert(row)
+		}
+		for _, row := range zcfzbList {
+			row.StockID = data.GetInt64("id")
+
+			if exist.Table("fin_zcfzb").Where("stock_id=? and date=?", row.StockID, row.Date).Exists() {
+				gos.Log.Info("exists fin_zcfzb", row.Date, "return")
+				continue
+			}
+
+			gos.Log.Info("insert fin_zcfzb", row.Date)
+			ist.Table("fin_zcfzb").Insert(row)
+		}
+		for _, row := range lrbList {
+			row.StockID = data.GetInt64("id")
+
+			if exist.Table("fin_lrb").Where("stock_id=? and date=?", row.StockID, row.Date).Exists() {
+				fmt.Println("exists fin_lrb", row.Date, "return")
+				continue
+			}
+
+			gos.Log.Info("insert fin_lrb", row.Date)
+			ist.Table("fin_lrb").Insert(row)
+		}
+		for _, row := range xjllbList {
+			row.StockID = data.GetInt64("id")
+
+			if exist.Table("fin_xjllb").Where("stock_id=? and date=?", row.StockID, row.Date).Exists() {
+				gos.Log.Info("exists fin_xjllb", row.Date, "return")
+				continue
+			}
+
+			gos.Log.Info("insert fin_xjllb", row.Date)
+			ist.Table("fin_xjllb").Insert(row)
+		}
+		for _, row := range finPercentList {
+			row.StockID = data.GetInt64("id")
+
+			if exist.Table("fin_percent").Where("stock_id=? and date=?", row.StockID, row.Date).Exists() {
+				gos.Log.Info("exists fin_percent", row.Date, "return")
+				continue
+			}
+
+			gos.Log.Info("insert fin_percent", row.Date)
+			ist.Table("fin_percent").Insert(row)
+		}
+
+		if len(cwzbList) > 0 {
+			time.Sleep(1 * time.Second)
+		}
+	}
 }
 
 // FetchRzrqSumData 抓取数据
@@ -19,20 +107,20 @@ func FetchCwfx(code, ctype string) ([]*Cwzb, []*Zcfzb, []*Lrb, []*Xjllb, []*FinP
 
 	resp, err := wget.Get(fmt.Sprintf(formt, ctype, code))
 	if err != nil {
-		return nil, nil, nil, nil, nil, err
+		return nil, nil, nil, nil, nil, gos.DoError(err)
 	}
 
 	doc, err := goquery.NewDocumentFromResponse(resp)
 	if err != nil {
-		return nil, nil, nil, nil, nil, err
+		return nil, nil, nil, nil, nil, gos.DoError(err)
 	}
 
-	var cwzbList []*Cwzb = make([]*Cwzb, 0)
-	var zcfzbList []*Zcfzb = make([]*Zcfzb, 0)
-	var lrbList []*Lrb = make([]*Lrb, 0)
-	var xjllbList []*Xjllb = make([]*Xjllb, 0)
-	var finPercentList []*FinPercent = make([]*FinPercent, 0)
-	var index int = 0
+	cwzbList := make([]*Cwzb, 0)
+	zcfzbList := make([]*Zcfzb, 0)
+	lrbList := make([]*Lrb, 0)
+	xjllbList := make([]*Xjllb, 0)
+	finPercentList := make([]*FinPercent, 0)
+	index := 0
 
 	doc.Find("#F10MainTargetDiv table tr").Each(func(i int, tr *goquery.Selection) {
 		if i == 0 {
@@ -163,7 +251,7 @@ type Cwzb struct {
 	A32 float64 `json:"a32"` // 流动比率
 	A33 float64 `json:"a33"` // 速动比率
 
-	StockId int64 `json:"stock_id" skip:"update"`
+	StockID int64 `json:"stock_id" skip:"update"`
 }
 
 type Zcfzb struct {
@@ -190,7 +278,7 @@ type Zcfzb struct {
 	A20  float64 `json:"a20"` // 股东权益合计(元)
 	A21  float64 `json:"a21"` // 流动比率
 
-	StockId int64 `json:"stock_id" skip:"update"`
+	StockID int64 `json:"stock_id" skip:"update"`
 }
 
 type Lrb struct {
@@ -207,7 +295,7 @@ type Lrb struct {
 	A10  float64 `json:"a10"` // 所得税(元)
 	A11  float64 `json:"a11"` // 归属母公司所有者净利润(元)
 
-	StockId int64 `json:"stock_id" skip:"update"`
+	StockID int64 `json:"stock_id" skip:"update"`
 }
 
 type Xjllb struct {
@@ -238,7 +326,7 @@ type Xjllb struct {
 	A24  float64 `json:"a24"` // 筹资活动现金流出小计(元)
 	A25  float64 `json:"a25"` // 筹资活动产生的现金流量净额(元)
 
-	StockId int64 `json:"stock_id" skip:"update"`
+	StockID int64 `json:"stock_id" skip:"update"`
 }
 
 type FinPercent struct {
@@ -262,5 +350,5 @@ type FinPercent struct {
 	A17  float64 `json:"a17"` // 减:所得税(元)
 	A18  float64 `json:"a18"` // 净利润(元)
 
-	StockId int64 `json:"stock_id" skip:"update"`
+	StockID int64 `json:"stock_id" skip:"update"`
 }

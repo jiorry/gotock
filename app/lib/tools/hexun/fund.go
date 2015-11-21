@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"math"
+	"time"
 
 	"github.com/jiorry/gotock/app/lib/tools/wget"
 	"github.com/jiorry/gotock/app/lib/util"
@@ -36,12 +38,28 @@ func FundType(ctype string) int {
 }
 
 // FetchRzrqSumData 抓取数据
-func FillFundRank(page int, quarter string) error {
-	// http://stockdata.stock.hexun.com/jgcc/data/outdata/orgrank.ashx?count=50&date=2015-09-30&orgType=&stateType=null&titType=null&page=2&callback=hxbase_json7
-	formt := "http://stockdata.stock.hexun.com/jgcc/data/outdata/orgrank.ashx?count=50&date=%s&orgType=&stateType=null&titType=null&page=%d&callback=hxbase_json7"
-	body, err := wget.GetBody(fmt.Sprintf(formt, quarter, page))
+func FillFundRankAll(quarter string) error {
+	pages, err := fetchAndFillFundRank(1, quarter)
 	if err != nil {
 		return err
+	}
+	for i := 2; i < pages+1; i++ {
+		_, err = fetchAndFillFundRank(i, quarter)
+		if err != nil {
+			return err
+		}
+		time.Sleep(1 * time.Second)
+	}
+	return nil
+}
+
+func fetchAndFillFundRank(page int, quarter string) (int, error) {
+	// http://stockdata.stock.hexun.com/jgcc/data/outdata/orgrank.ashx?count=50&date=2015-09-30&orgType=&stateType=null&titType=null&page=2&callback=hxbase_json7
+	formt := "http://stockdata.stock.hexun.com/jgcc/data/outdata/orgrank.ashx?count=%s&date=%s&orgType=&stateType=null&titType=null&page=%d&callback=hxbase_json7"
+	pageLimit := 100
+	body, err := wget.GetBody(fmt.Sprintf(formt, pageLimit, quarter, page))
+	if err != nil {
+		return -1, err
 	}
 
 	exists := db.NewExistsBuilder("funds")
@@ -55,7 +73,7 @@ func FillFundRank(page int, quarter string) error {
 	// hxbase_json7(
 	str, err := iconv.ConvertString(string(body), "gb2312", "utf-8")
 	if err != nil {
-		return err
+		return -1, err
 	}
 
 	src := []byte(str)
@@ -71,25 +89,25 @@ func FillFundRank(page int, quarter string) error {
 	err = json.Unmarshal(src, v)
 	if err != nil {
 		fmt.Println(string(src))
-		return err
+		return -1, err
 	}
 	// {RankTd:'51',OrgName:'法国巴黎银行',OrgNameLink:'o-QF000031.shtml',OrgType:'QFII',ShareHoldingNum:'3',ShareHoldingNumLink:'otherDetail.aspx?OrgNo=QF000031',TotalHoldings:'48,388.00',TotalMarketValue:'1,100,735.00',OrgAlt:'法国巴黎银行'}
 	for _, item := range v.List {
-		fund = &Fund{Code: item["OrgNameLink"], Name: string(item["OrgName"]), TypeId: FundType(item["OrgType"])}
+		fund = &Fund{Code: item["OrgNameLink"], Name: string(item["OrgName"]), TypeID: FundType(item["OrgType"])}
 		fund.Code = fund.Code[2 : len(fund.Code)-6]
 		fmt.Println("----")
-		if !exists.Table("funds").Where("code=? and type_id=?", fund.Code, fund.TypeId).Exists() {
+		if !exists.Table("funds").Where("code=? and type_id=?", fund.Code, fund.TypeID).Exists() {
 			fmt.Println("insert", fund)
 			ist.Table("funds").Insert(fund)
 		}
 
-		row, _ = query.Table("funds").Where("code=? and type_id=?", fund.Code, fund.TypeId).QueryOne()
+		row, _ = query.Table("funds").Where("code=? and type_id=?", fund.Code, fund.TypeID).QueryOne()
 		if row.Empty() {
-			return fmt.Errorf("code %s not found", fund.Code)
+			return -1, fmt.Errorf("code %s not found", fund.Code)
 		}
 
 		fundRank = &FundRank{
-			FundId: row.GetInt64("id"),
+			FundID: row.GetInt64("id"),
 			Date:   quarter,
 			Rank:   int(util.ParseMoney(item["RankTd"])),
 			Count:  int(util.ParseMoney(item["ShareHoldingNum"])),
@@ -97,24 +115,24 @@ func FillFundRank(page int, quarter string) error {
 			MV:     int64(util.ParseMoney(item["TotalMarketValue"])),
 		}
 
-		if !exists.Table("fund_rank").Where("fund_id=? and date=?", fundRank.FundId, fundRank.Date).Exists() {
+		if !exists.Table("fund_rank").Where("fund_id=? and date=?", fundRank.FundID, fundRank.Date).Exists() {
 			fmt.Println("insert", fundRank)
 			ist.Table("fund_rank").Insert(fundRank)
 		}
 
 	}
-	return nil
+	return int(math.Ceil(float64(v.Sum / pageLimit))), nil
 }
 
 type Fund struct {
-	Id     int64  `json:"id" skip:"all"`
+	ID     int64  `json:"id" skip:"all"`
 	Name   string `json:"name"`
 	Code   string `json:"code"`
-	TypeId int    `json:"type_id"` //
+	TypeID int    `json:"type_id"` //
 }
 
 type FundRank struct {
-	FundId int64  `json:"fund_id" skip:"update"`
+	FundID int64  `json:"fund_id" skip:"update"`
 	Date   string `json:"date"`
 	Rank   int    `json:"rank"`  // 排名
 	Count  int    `json:"count"` // 股票数量

@@ -1,7 +1,10 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/jiorry/gotock/app/lib/tools/dfcf"
+	"github.com/kere/gos"
 	"github.com/kere/gos/db"
 	"github.com/kere/gos/lib/conf"
 	"github.com/kere/gos/lib/log"
@@ -12,7 +15,12 @@ func main() {
 	c := conf.Load("../../app/app.conf")
 	db.Init("app", c.GetConf("db").MapData())
 	db.Current().Log = log.NewEmpty()
-	log.Level = log.LOG_ERR
+	// log.Level = log.LOG_ERR
+	log.Init("", nil)
+	gos.Log = log.App
 
-	dfcf.FillCwfx("2015-09-30")
+	err := dfcf.FillYyb()
+	if err != nil {
+		fmt.Println(err)
+	}
 }

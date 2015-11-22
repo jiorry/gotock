@@ -1,9 +1,31 @@
 package util
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
+	"time"
+
+	"github.com/kere/gos"
 )
+
+func StockQuarter() string {
+	now := gos.NowInLocation()
+
+	q2, _ := time.ParseInLocation("2006-01-02", fmt.Sprint(now.Year(), "-06-30"), now.Location())
+	q3, _ := time.ParseInLocation("2006-01-02", fmt.Sprint(now.Year(), "-09-30"), now.Location())
+	q4, _ := time.ParseInLocation("2006-01-02", fmt.Sprint(now.Year(), "-12-31"), now.Location())
+
+	if now.Unix() > q4.Unix() {
+		return fmt.Sprint(now.Year(), "-12-31")
+	} else if now.Unix() > q3.Unix() {
+		return fmt.Sprint(now.Year(), "-09-30")
+	} else if now.Unix() > q2.Unix() {
+		return fmt.Sprint(now.Year(), "-06-30")
+	} else {
+		return fmt.Sprint(now.Year(), "-03-31")
+	}
+}
 
 func ParsePercent(str string) float64 {
 	str = strings.TrimSpace(str)

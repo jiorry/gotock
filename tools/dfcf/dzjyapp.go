@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/jiorry/gotock/app/lib/tools/dfcf"
+	"github.com/kere/gos"
 	"github.com/kere/gos/db"
 	"github.com/kere/gos/lib/conf"
 	"github.com/kere/gos/lib/log"
@@ -16,6 +17,6 @@ func main() {
 	db.Current().Log = log.NewEmpty()
 	log.Level = log.LOG_ERR
 
-	fmt.Println(dfcf.FillGgcg(), "finished")
+	fmt.Println(dfcf.FillDzjy(gos.NowInLocation()), "finished")
 
 }

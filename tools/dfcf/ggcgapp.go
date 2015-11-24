@@ -17,5 +17,12 @@ func main() {
 	log.Level = log.LOG_ERR
 
 	fmt.Println(dfcf.FillGgcg(), "finished")
-
+	// v, err := dfcf.FetchGgcg(0)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// l := v.Parse()
+	// for _, item := range l {
+	// 	fmt.Println(item)
+	// }
 }
